@@ -21,6 +21,10 @@ export default function RouterWrapper({
     return <Redirect to="/students/list" />;
   }
 
+  if (!signed) {
+    return <Route {...rest} component={Component} />;
+  }
+
   return (
     <Route
       {...rest}
