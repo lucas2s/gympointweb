@@ -32,7 +32,13 @@ module.exports = {
     "no-console": ["error", { allow: ["tron"] }],
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
-    "jsx-props-no-spreading": "off",
-    "eslint-disable-next-line": "off"
+    "react/jsx-props-no-spreading": "off"
   },
-};
+  settings: {
+    "import/resolver": {
+      "babel-plugin-root-import": {
+        rootPathSuffix: "src"
+      },
+    },
+  }
+}
