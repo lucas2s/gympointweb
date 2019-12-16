@@ -2,6 +2,6 @@ import React from 'react';
 
 // import { Container } from './styles';
 
-export default function ListaAlunos() {
-  return <div />;
+export default function ListStudents() {
+  return <h1>ListaAlunos</h1>;
 }

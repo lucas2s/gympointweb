@@ -2,6 +2,6 @@ import React from 'react';
 
 // import { Container } from './styles';
 
-export default function ListPlans() {
-  return <h1>ListaPlanos</h1>;
+export default function InvalidRoute() {
+  return <h1>404</h1>;
 }
