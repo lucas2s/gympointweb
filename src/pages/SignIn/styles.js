@@ -10,7 +10,7 @@ export const Container = styled.div`
 `;
 
 export const ContainerSignIn = styled.div`
-  height: 448px;
+  height: max-content;
   width: 100%;
   max-width: 360px;
   display: flex;
@@ -46,6 +46,13 @@ export const ContainerSignIn = styled.div`
       }
     }
 
+    span {
+      color: #F64C75;
+      align-self: flex-start;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+
     button {
       height: 45px;
       background: #ee4d64;
@@ -54,6 +61,7 @@ export const ContainerSignIn = styled.div`
       color: #ffffff;
       border: 0px;
       transition: background 0.2s;
+      margin-bottom: 50px;
 
       &:hover {
         background: ${darken(0.08, '#ee4d64')};
