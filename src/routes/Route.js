@@ -1,12 +1,12 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { Route, Redirect } from 'react-router-dom';
 
 import DefaultLayout from '../pages/_layouts/default';
 
 import { store } from '~/store';
 
-export default function RouterWrapper({
+export default function RouteWrapper({
   component: Component,
   isPrivate,
   ...rest
@@ -22,7 +22,7 @@ export default function RouterWrapper({
   }
 
   if (!signed) {
-    return <Route {...rest} component={Component} />;
+    return <Route {...rest} render={props => <Component {...props} />} />;
   }
 
   return (
@@ -36,13 +36,12 @@ export default function RouterWrapper({
     />
   );
 }
-
-RouterWrapper.defaultProps = {
-  isPrivate: false,
+RouteWrapper.propTypes = {
+  isPrivate: PropTypes.bool,
+  component: PropTypes.oneOfType([PropTypes.element, PropTypes.func])
+    .isRequired,
 };
 
-RouterWrapper.propTypes = {
-  isPrivate: PropTypes.bool,
-  component: PropTypes.oneOfType([PropTypes.element, PropTypes.element])
-    .isRequired,
+RouteWrapper.defaultProps = {
+  isPrivate: false,
 };
