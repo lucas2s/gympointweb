@@ -4,7 +4,9 @@ import Route from './Route';
 
 import SignIn from '~/pages/SignIn';
 import ListStudents from '~/pages/Students/List';
-import ListPlan from '~/pages/Plan/List';
+import ListPlan from '~/pages/Plans/List';
+import ListEnrollment from '~/pages/Enrollments/List';
+import ListQuestions from '~/pages/Questions/List';
 import InvalidRoute from '~/pages/InvalidRoute';
 
 export default function Routes() {
@@ -13,7 +15,9 @@ export default function Routes() {
       <Route path="/" exact component={SignIn} />
 
       <Route path="/students/list" component={ListStudents} isPrivate />
-      <Route path="/plan/list" component={ListPlan} isPrivate />
+      <Route path="/plans/list" component={ListPlan} isPrivate />
+      <Route path="/enrollments/list" component={ListEnrollment} isPrivate />
+      <Route path="/questions/list" component={ListQuestions} isPrivate />
 
       <Route path="/" component={InvalidRoute} />
     </Switch>
