@@ -10,12 +10,14 @@ export function* signIn({ payload }) {
   try {
     const { email, password } = payload;
 
-    const response = yield call(api.post, '/sessions', {
+    const response = yield call(api.post, 'sessions', {
       email,
       password,
     });
 
     const { token, user } = response.data;
+
+    api.defaults.headers.Authorization = `Baerer ${token}`;
 
     yield put(signInSuccess(token, user));
 
@@ -26,4 +28,17 @@ export function* signIn({ payload }) {
   }
 }
 
-export default all([takeLatest('@auth/SIGN_IN_REQUEST', signIn)]);
+export function setToken({ payload }) {
+  if (!payload) return;
+
+  const { token } = payload.auth;
+
+  if (token) {
+    api.defaults.headers.Authorization = `Baerer ${token}`;
+  }
+}
+
+export default all([
+  takeLatest('persist/REHYDRATE', setToken),
+  takeLatest('@auth/SIGN_IN_REQUEST', signIn),
+]);
