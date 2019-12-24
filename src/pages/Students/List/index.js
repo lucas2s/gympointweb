@@ -1,11 +1,10 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-alert */
 import React, { useEffect, useState } from 'react';
-// import { Link } from 'react-router-dom';
 import { Input, Form } from '@rocketseat/unform';
 import { toast } from 'react-toastify';
 import api from '~/services/api';
-// import StuddentEdit from '../Edit';
+import history from '~/services/history';
 
 import {
   Container,
@@ -52,8 +51,6 @@ export default function ListStudents() {
     await setStudent(studentSearch);
   }
 
-  // function handleEdit(studentEdit) {}
-
   async function handleDelete(studentDelete) {
     try {
       const deleted = confirm(`Deseja apagar o aluno ${studentDelete.name} ?`);
@@ -80,7 +77,14 @@ export default function ListStudents() {
       <Content>
         <h1>Gerenciando alunos</h1>
         <div>
-          <button type="button">CADASTRAR</button>
+          <button
+            type="button"
+            onClick={() => {
+              history.push('/students/store', { title: 'Cadastro de aluno' });
+            }}
+          >
+            CADASTRAR
+          </button>
           <Form onSubmit={handleSearch}>
             <Input name="studentSearch" placeholder="Buscar aluno" />
           </Form>
@@ -113,7 +117,16 @@ export default function ListStudents() {
                   <p>{item.age}</p>
                 </TdAge>
                 <TdEdit>
-                  <button type="button">editar</button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      history.push(`/students/update/${item.id}`, {
+                        title: 'Edição de aluno',
+                      });
+                    }}
+                  >
+                    editar
+                  </button>
                 </TdEdit>
                 <TdDelete>
                   <button type="button" onClick={() => handleDelete(item)}>

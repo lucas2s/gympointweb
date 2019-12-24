@@ -40,7 +40,6 @@ export const Content = styled.div`
     color: #fff;
     background: #ee4d64;
     border-radius: 4px;
-    font-style: normal;
     font-weight: bold;
     font-size: 14px;
     line-height: 16px;
