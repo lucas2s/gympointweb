@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 import { Container, Content } from './styles';
@@ -8,6 +9,8 @@ export default function Header() {
   function handleLogout() {
     console.tron.log('Logout');
   }
+
+  const { name } = useSelector(state => state.user.user);
 
   return (
     <Container>
@@ -40,7 +43,7 @@ export default function Header() {
           </ul>
         </nav>
         <aside>
-          <strong>Diego Fernandes</strong>
+          <strong>{name}</strong>
           <button type="button" onClick={handleLogout}>
             sair do sitema
           </button>

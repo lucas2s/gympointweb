@@ -1,7 +1,11 @@
+/* eslint-disable no-restricted-globals */
+/* eslint-disable no-alert */
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
+import { Input, Form } from '@rocketseat/unform';
+import { toast } from 'react-toastify';
 import api from '~/services/api';
-import StuddentEdit from '../Edit';
+// import StuddentEdit from '../Edit';
 
 import {
   Container,
@@ -19,19 +23,23 @@ import {
 
 export default function ListStudents() {
   const [students, setStudents] = useState([]);
-  const [student = ''] = useState();
+  const [student = '', setStudent] = useState();
   const [page = 1, setPage] = useState();
 
   useEffect(() => {
     async function loadStudents() {
-      const response = await api.get('students', {
-        params: {
-          student,
-          page,
-        },
-      });
+      try {
+        const response = await api.get('students', {
+          params: {
+            student,
+            page,
+          },
+        });
 
-      setStudents(response.data.students);
+        setStudents(response.data.students);
+      } catch (err) {
+        setStudents([]);
+      }
     }
     loadStudents();
   }, [page, student]);
@@ -40,9 +48,32 @@ export default function ListStudents() {
     await (rel === 'next' ? setPage(page + 1) : setPage(page - 1));
   }
 
-  function handleEdit(studentEdit) {}
+  async function handleSearch({ studentSearch }) {
+    await setStudent(studentSearch);
+  }
 
-  async function handleDelete(studentDelete) {}
+  // function handleEdit(studentEdit) {}
+
+  async function handleDelete(studentDelete) {
+    try {
+      const deleted = confirm(`Deseja apagar o aluno ${studentDelete.name} ?`);
+      if (deleted === true) {
+        const response = await api.delete(`students/${studentDelete.id}`);
+        if (response.status !== 200) {
+          toast.warn('Não foi possível apagar o aluno!');
+        } else {
+          toast.success('Aluno apagado com sucesso!');
+          setStudents(
+            students.filter(studentMap => studentMap.id !== studentDelete.id)
+          );
+        }
+      } else {
+        toast.warn('Deleção Cancelada!');
+      }
+    } catch (err) {
+      toast.error('Erro para apagar o aluno.');
+    }
+  }
 
   return (
     <Container>
@@ -50,7 +81,9 @@ export default function ListStudents() {
         <h1>Gerenciando alunos</h1>
         <div>
           <button type="button">CADASTRAR</button>
-          <input placeholder="Buscar aluno" />
+          <Form onSubmit={handleSearch}>
+            <Input name="studentSearch" placeholder="Buscar aluno" />
+          </Form>
         </div>
       </Content>
 
@@ -67,29 +100,33 @@ export default function ListStudents() {
               <strong>IDADE</strong>
             </TdAge>
           </Row>
-          {students.map(item => (
-            <Row key={item.id} className="border_bottom">
-              <TdName>
-                <p>{item.name}</p>
-              </TdName>
-              <TdEmail>
-                <p>{item.email}</p>
-              </TdEmail>
-              <TdAge>
-                <p>{item.age}</p>
-              </TdAge>
-              <TdEdit>
-                <button type="button" onClick={() => handleEdit(item)}>
-                  editar
-                </button>
-              </TdEdit>
-              <TdDelete>
-                <button type="button" onClick={() => handleDelete(item)}>
-                  apagar
-                </button>
-              </TdDelete>
+          {students.length > 0 ? (
+            students.map(item => (
+              <Row key={item.id} className="border_bottom">
+                <TdName>
+                  <p>{item.name}</p>
+                </TdName>
+                <TdEmail>
+                  <p>{item.email}</p>
+                </TdEmail>
+                <TdAge>
+                  <p>{item.age}</p>
+                </TdAge>
+                <TdEdit>
+                  <button type="button">editar</button>
+                </TdEdit>
+                <TdDelete>
+                  <button type="button" onClick={() => handleDelete(item)}>
+                    apagar
+                  </button>
+                </TdDelete>
+              </Row>
+            ))
+          ) : (
+            <Row>
+              <h1>Não foi encontrado nenhum aluno</h1>
             </Row>
-          ))}
+          )}
         </Table>
       </ContentTable>
       <Page>

@@ -12,18 +12,24 @@ export const Content = styled.div`
   justify-content: space-between;
   margin-bottom: 20px;
 
-  input {
-    width: 237px;
-    height: 36px;
-    background: #ffffff;
-    border: 1px solid #dddddd;
-    box-sizing: border-box;
-    border-radius: 4px;
-    padding-left: 40px;
-    ::placeholder {
-      font-size: 14px;
-      line-height: 16px;
-      color: #999999;
+  div {
+    display: flex;
+  }
+
+  form {
+    input {
+      width: 237px;
+      height: 36px;
+      background: #ffffff;
+      border: 1px solid #dddddd;
+      box-sizing: border-box;
+      border-radius: 4px;
+      padding-left: 40px;
+      ::placeholder {
+        font-size: 14px;
+        line-height: 16px;
+        color: #999999;
+      }
     }
   }
 
@@ -85,6 +91,12 @@ export const Row = styled.div`
   span {
     flex: 1;
     border-bottom: 1px solid #eeeeee;
+  }
+
+  h1 {
+    font-size: 24px;
+    line-height: 20px;
+    color: #666666;
   }
 `;
 
@@ -149,7 +161,7 @@ export const Page = styled.div`
     border: none;
     background: #ee4d64;
     border-radius: 5px;
-    font-size: 10px;
+    font-size: 14px;
     padding: 5px 10px;
     color: #fff;
     box-shadow: 4px 4px 4px #888;
