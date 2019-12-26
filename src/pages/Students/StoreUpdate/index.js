@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
-import { Input, Form } from '@rocketseat/unform';
+import { Input, Form, useField } from '@rocketseat/unform';
 import { parseISO } from 'date-fns';
+import ReactDatePicker from 'react-datepicker';
 import pt from 'date-fns/locale/pt';
-import DatePicker from 'react-datepicker';
 
 import * as Yup from 'yup';
 
@@ -26,19 +26,36 @@ const schema = Yup.object().shape({
   name: Yup.string().required('Informe um nome válido'),
   weight: Yup.number('Valor deve ser numérico')
     .positive('Insira um peso válido')
-    .required('O peso é obrigatória'),
+    .required('O peso é obrigatória')
+    .typeError('O peso é obrigatório'),
   height: Yup.number('Valor deve ser numérico')
     .positive('Insira um peso válido')
-    .required('O peso é obrigatória'),
-  birthDate: Yup.date('Data inválida').required('O peso é obrigatória'),
+    .required('O peso é obrigatória')
+    .typeError('A altura obrigatória'),
+  birth_date: Yup.date('Data inválida')
+    .required('O peso é obrigatória')
+    .typeError('Data de nascimento é obrigatória'),
 });
 
 export default function StoreUpdate({ location }) {
   const { title } = location.state;
   const { id } = useParams();
 
+  const ref = useRef(null);
   const [student = {}, setStudent] = useState({});
-  const [birthDate, setBirthDate] = useState();
+  const { fieldName, registerField } = useField('birth_date');
+  const [birth_date, setBirthDate] = useState();
+
+  useEffect(() => {
+    registerField({
+      name: fieldName,
+      ref: ref.current,
+      path: 'props.selected',
+      clearValue: pickerRef => {
+        pickerRef.clear();
+      },
+    });
+  }, [ref.current, fieldName]);
 
   useEffect(() => {
     async function loadStudent() {
@@ -58,10 +75,18 @@ export default function StoreUpdate({ location }) {
     loadStudent();
   }, []);
 
-  useEffect(() => {
-    function loadStudents() {}
-    loadStudents();
-  }, [student]);
+  async function handleSubmit({ name, email, weight, height }) {
+    console.tron.log('entrei');
+    const response = await api.post('students', {
+      name,
+      email,
+      weight,
+      height,
+      birth_date,
+    });
+
+    console.tron.log(response.data);
+  }
 
   return (
     <Container>
@@ -76,30 +101,47 @@ export default function StoreUpdate({ location }) {
           >
             VOLTAR
           </BtnVoltar>
-          <BtnSalvar type="button" onClick={() => {}}>
+          <BtnSalvar type="submit" form="students">
             SALVAR
           </BtnSalvar>
         </div>
       </Content>
       <ContentForm>
-        <Form initialData={student} schema={schema}>
+        <Form
+          initialData={student}
+          schema={schema}
+          onSubmit={handleSubmit}
+          id="students"
+        >
           <p>NOME COMPLETO</p>
           <Input name="name" type="text" placeholder="Nome Aluno" />
           <p>ENDEREÇO DE E-MAIL</p>
           <Input name="email" type="email" placeholder="exemplo@email.com" />
-          <div>
+          <div className="myContainer">
             <div>
               <p>DATA NASCIMENTO</p>
-              <DatePicker
-                dateFormat="dd/MM/yyyy"
-                selected={birthDate}
-                locale={pt}
-                onChange={date => setBirthDate(date)}
-                placeholderText="Data de nascimento: dd/mm/yyyy"
-              />
             </div>
             <div>
               <p>PESO (em kg)</p>
+            </div>
+            <div className="myheight">
+              <p>ALTURA</p>
+            </div>
+          </div>
+          <div className="myContainer">
+            <div>
+              <ReactDatePicker
+                className="myDatePicker"
+                name="birthDate"
+                dateFormat="dd/MM/yyyy"
+                locale={pt}
+                selected={birth_date}
+                onChange={date => setBirthDate(date)}
+                placeholderText="dd/mm/yyyy"
+                ref={ref}
+              />
+            </div>
+            <div>
               <Input
                 name="weight"
                 step="0.1"
@@ -107,8 +149,7 @@ export default function StoreUpdate({ location }) {
                 placeholder="83.4kg"
               />
             </div>
-            <div>
-              <p>ALTURA</p>
+            <div className="myheight">
               <Input
                 name="height"
                 step="0.01"

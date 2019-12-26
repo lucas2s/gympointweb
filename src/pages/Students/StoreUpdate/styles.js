@@ -77,18 +77,23 @@ export const ContentForm = styled.div`
       }
     }
 
-    div {
+    .myContainer {
       display: flex;
+      flex-wrap: nowrap;
+      flex-direction: row;
 
       div {
-        display: flex;
         flex: 1;
-        flex-direction: column;
       }
+    }
 
-      & + div {
-        margin-left: 15px;
-      }
+    .myDatePicker {
+      width: 100%;
+      padding-right: 100px;
+    }
+
+    .myheight {
+      margin-left: 15px;
     }
   }
 `;
