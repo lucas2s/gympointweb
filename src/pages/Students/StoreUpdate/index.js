@@ -145,19 +145,19 @@ export default function StoreUpdate() {
           onSubmit={handleSubmit}
           id="students"
         >
-          <p>NOME COMPLETO</p>
+          <label for="name">NOME COMPLETO</label>
           <Input name="name" type="text" placeholder="Nome Aluno" />
-          <p>ENDEREÇO DE E-MAIL</p>
+          <label for="email">ENDEREÇO DE E-MAIL</label>
           <Input name="email" type="email" placeholder="exemplo@email.com" />
           <div className="myContainer">
             <div>
-              <p>DATA NASCIMENTO</p>
+              <label for="birthDate">DATA NASCIMENTO</label>
             </div>
             <div>
-              <p>PESO (em kg)</p>
+              <label for="weight">PESO (em kg)</label>
             </div>
             <div className="myheight">
-              <p>ALTURA</p>
+              <label for="height">ALTURA</label>
             </div>
           </div>
           <div className="myContainer">

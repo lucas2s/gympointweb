@@ -59,7 +59,7 @@ export const ContentForm = styled.div`
   max-width: 900px;
   padding: 20px;
 
-  p {
+  label {
     font-weight: bold;
     font-size: 14px;
     line-height: 16px;
