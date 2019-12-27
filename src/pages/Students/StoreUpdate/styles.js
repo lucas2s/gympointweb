@@ -18,31 +18,37 @@ export const Content = styled.div`
 `;
 
 export const BtnVoltar = styled.button`
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 112px;
   height: 36px;
-  padding-left: 40px;
+  padding: 0px 15px;
   color: #fff;
   background: #cccccc;
   border-radius: 4px;
   font-weight: bold;
   font-size: 14px;
   line-height: 16px;
-  text-align: center;
   border: 0;
   margin-right: 15px;
 `;
 
 export const BtnSalvar = styled.button`
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 112px;
   height: 36px;
-  padding-left: 40px;
+  padding: 0px 15px;
   color: #fff;
   background: #ee4d64;
   border-radius: 4px;
   font-weight: bold;
   font-size: 14px;
   line-height: 16px;
-  text-align: center;
   border: 0;
 `;
 
@@ -85,6 +91,13 @@ export const ContentForm = styled.div`
       div {
         flex: 1;
       }
+    }
+
+    span {
+      color: #f64c75;
+      display: flex;
+      margin-bottom: 20px;
+      font-weight: bold;
     }
 
     .myDatePicker {

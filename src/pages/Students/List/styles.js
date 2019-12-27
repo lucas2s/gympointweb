@@ -31,19 +31,28 @@ export const Content = styled.div`
         color: #999999;
       }
     }
+
+    span {
+      position: absolute;
+      margin-left: 10px;
+      margin-top: 8px;
+    }
   }
 
   button {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     width: 142px;
     height: 36px;
-    padding-left: 40px;
+    padding: 0px 15px;
     color: #fff;
     background: #ee4d64;
     border-radius: 4px;
     font-weight: bold;
     font-size: 14px;
     line-height: 16px;
-    text-align: center;
     border: 0;
     margin-right: 15px;
   }

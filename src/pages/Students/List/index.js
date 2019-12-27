@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { Input, Form } from '@rocketseat/unform';
 import { toast } from 'react-toastify';
+import { MdAdd, MdSearch } from 'react-icons/md';
 import api from '~/services/api';
 import history from '~/services/history';
 
@@ -54,7 +55,7 @@ export default function ListStudents() {
   async function handleDelete(studentDelete) {
     try {
       const deleted = confirm(`Deseja apagar o aluno ${studentDelete.name} ?`);
-      if (deleted === true) {
+      if (deleted) {
         const response = await api.delete(`students/${studentDelete.id}`);
         if (response.status !== 200) {
           toast.warn('Não foi possível apagar o aluno!');
@@ -80,12 +81,16 @@ export default function ListStudents() {
           <button
             type="button"
             onClick={() => {
-              history.push('/students/store', { title: 'Cadastro de aluno' });
+              history.push('/students/store');
             }}
           >
+            <MdAdd size={22} color="#FFF" />
             CADASTRAR
           </button>
           <Form onSubmit={handleSearch}>
+            <span>
+              <MdSearch size={22} color="#999999" />
+            </span>
             <Input name="studentSearch" placeholder="Buscar aluno" />
           </Form>
         </div>
@@ -120,9 +125,7 @@ export default function ListStudents() {
                   <button
                     type="button"
                     onClick={() => {
-                      history.push(`/students/update/${item.id}`, {
-                        title: 'Edição de aluno',
-                      });
+                      history.push(`/students/update/${item.id}`);
                     }}
                   >
                     editar

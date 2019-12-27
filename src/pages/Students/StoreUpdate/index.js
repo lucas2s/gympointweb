@@ -1,8 +1,11 @@
+/* eslint-disable no-alert */
+/* eslint-disable no-restricted-globals */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useRef, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import { useParams } from 'react-router-dom';
-import { Input, Form, useField } from '@rocketseat/unform';
+import { MdArrowBack, MdSave } from 'react-icons/md';
+import { Input, Form } from '@rocketseat/unform';
 import { parseISO } from 'date-fns';
 import ReactDatePicker from 'react-datepicker';
 import pt from 'date-fns/locale/pt';
@@ -32,41 +35,28 @@ const schema = Yup.object().shape({
     .positive('Insira um peso válido')
     .required('O peso é obrigatória')
     .typeError('A altura obrigatória'),
-  birth_date: Yup.date('Data inválida')
-    .required('O peso é obrigatória')
-    .typeError('Data de nascimento é obrigatória'),
 });
 
-export default function StoreUpdate({ location }) {
-  const { title } = location.state;
+export default function StoreUpdate() {
   const { id } = useParams();
 
-  const ref = useRef(null);
   const [student = {}, setStudent] = useState({});
-  const { fieldName, registerField } = useField('birth_date');
-  const [birth_date, setBirthDate] = useState();
-
-  useEffect(() => {
-    registerField({
-      name: fieldName,
-      ref: ref.current,
-      path: 'props.selected',
-      clearValue: pickerRef => {
-        pickerRef.clear();
-      },
-    });
-  }, [ref.current, fieldName]);
+  const [birth_date, setBirthDate] = useState(new Date());
+  const [title, setTitle] = useState();
 
   useEffect(() => {
     async function loadStudent() {
       try {
         if (id) {
+          setTitle('Edição de aluno');
           const response = await api.get(`students/${id}`);
 
           const DateFormated = parseISO(response.data.student.birth_date);
 
           setStudent(response.data.student);
           setBirthDate(DateFormated);
+        } else {
+          setTitle('Cadastro de aluno');
         }
       } catch (err) {
         setStudent({});
@@ -75,17 +65,57 @@ export default function StoreUpdate({ location }) {
     loadStudent();
   }, []);
 
-  async function handleSubmit({ name, email, weight, height }) {
-    console.tron.log('entrei');
-    const response = await api.post('students', {
-      name,
-      email,
-      weight,
-      height,
-      birth_date,
-    });
+  async function handleSubmit({ name, email, weight, height }, { resetForm }) {
+    try {
+      if (!id) {
+        const confirmation = confirm(`Deseja incluir o aluno ${name} ?`);
 
-    console.tron.log(response.data);
+        if (!confirmation) {
+          toast.warn('Inclusão do aluno cancelada!');
+          return;
+        }
+
+        const response = await api.post('students', {
+          name,
+          email,
+          weight,
+          height,
+          birth_date,
+        });
+
+        if (response.status === 200) {
+          resetForm();
+          setBirthDate();
+          setStudent({});
+          toast.success('Inclusão do aluno realizada com sucesso!');
+        } else {
+          toast.error(response.data.error);
+        }
+      } else {
+        const confirmation = confirm(`Deseja alterar o aluno ${name} ?`);
+
+        if (!confirmation) {
+          toast.warn('Alteração do aluno cancelada!');
+          return;
+        }
+
+        const response = await api.put(`students/${id}`, {
+          name,
+          email,
+          weight,
+          height,
+          birth_date,
+        });
+
+        if (response.status === 200) {
+          toast.success('Alteração do aluno realizada com sucesso!');
+        } else {
+          toast.error(response.data.error);
+        }
+      }
+    } catch (err) {
+      toast.error(`Ocorreu um erro no Gerenciamento de Alunos`);
+    }
   }
 
   return (
@@ -99,9 +129,11 @@ export default function StoreUpdate({ location }) {
               history.push('/students/list');
             }}
           >
+            <MdArrowBack size={22} color="#FFF" />
             VOLTAR
           </BtnVoltar>
           <BtnSalvar type="submit" form="students">
+            <MdSave size={20} color="#FFF" />
             SALVAR
           </BtnSalvar>
         </div>
@@ -138,7 +170,10 @@ export default function StoreUpdate({ location }) {
                 selected={birth_date}
                 onChange={date => setBirthDate(date)}
                 placeholderText="dd/mm/yyyy"
-                ref={ref}
+                maxDate={new Date()}
+                showMonthDropdown
+                showYearDropdown
+                dropdownMode="select"
               />
             </div>
             <div>
@@ -163,12 +198,3 @@ export default function StoreUpdate({ location }) {
     </Container>
   );
 }
-
-StoreUpdate.propTypes = {
-  title: PropTypes.string,
-  location: PropTypes.element.isRequired,
-};
-
-StoreUpdate.defaultProps = {
-  title: 'Cadastro de aluno',
-};
