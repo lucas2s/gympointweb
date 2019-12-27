@@ -25,10 +25,12 @@ export default function ListStudents() {
   const [students, setStudents] = useState([]);
   const [student = '', setStudent] = useState();
   const [page = 1, setPage] = useState();
+  const [loading=false, setLoading] = useState();
 
   useEffect(() => {
     async function loadStudents() {
       try {
+        setLoading(true);
         const response = await api.get('students', {
           params: {
             student,
@@ -37,8 +39,10 @@ export default function ListStudents() {
         });
 
         setStudents(response.data.students);
+        setLoading(false);
       } catch (err) {
         setStudents([]);
+        setLoading(false);
       }
     }
     loadStudents();
@@ -95,8 +99,12 @@ export default function ListStudents() {
           </Form>
         </div>
       </Content>
-
       <ContentTable>
+      {loading ? (
+        <Row>
+          <h1>Carregando Alunos...</h1>
+        </Row>
+      ) : ( 
         <Table>
           <Row>
             <TdName>
@@ -143,7 +151,8 @@ export default function ListStudents() {
               <h1>Não foi encontrado nenhum aluno</h1>
             </Row>
           )}
-        </Table>
+        </Table> 
+      )}
       </ContentTable>
       <Page>
         <button
