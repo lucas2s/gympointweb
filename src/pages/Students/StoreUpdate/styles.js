@@ -83,6 +83,14 @@ export const ContentForm = styled.div`
       }
     }
 
+    input[type='number']::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+    }
+    input[type='number'] {
+      -moz-appearance: textfield;
+      appearance: textfield;
+    }
+
     .myContainer {
       display: flex;
       flex-wrap: nowrap;

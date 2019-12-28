@@ -45,8 +45,6 @@ export default function ListPlans() {
           priceFormatted: formatPrice(plan.price),
         }));
 
-        console.tron.log(data);
-
         setPlans(data);
         setLoading(false);
       } catch (err) {

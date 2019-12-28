@@ -181,16 +181,16 @@ export default function StoreUpdate() {
               <Input
                 name="weight"
                 step="0.1"
-                type="text"
-                placeholder="83.4kg"
+                type="number"
+                placeholder="83.4"
               />
             </div>
             <div className="myheight">
               <Input
                 name="height"
                 step="0.01"
-                type="text"
-                placeholder="1.88m"
+                type="number"
+                placeholder="1.88"
               />
             </div>
           </div>

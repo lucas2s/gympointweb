@@ -1,5 +1,9 @@
+/* eslint-disable no-empty-pattern */
+/* eslint-disable no-alert */
+/* eslint-disable no-restricted-globals */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { toast } from 'react-toastify';
 import { useParams } from 'react-router-dom';
 import { MdArrowBack, MdSave } from 'react-icons/md';
@@ -15,52 +19,110 @@ import {
 } from './styles';
 import history from '~/services/history';
 import api from '~/services/api';
+import { formatPrice } from '~/util/format';
 
 const schema = Yup.object().shape({
-  email: Yup.string()
-    .email('Insira um e-mail válido')
-    .required('O e-mail é obrigatório'),
-  name: Yup.string().required('Informe um nome válido'),
-  weight: Yup.number('Valor deve ser numérico')
-    .positive('Insira um peso válido')
-    .required('O peso é obrigatória')
-    .typeError('O peso é obrigatório'),
-  height: Yup.number('Valor deve ser numérico')
-    .positive('Insira um peso válido')
-    .required('O peso é obrigatória')
-    .typeError('A altura obrigatória'),
+  title: Yup.string().required('Informe um Título'),
+  duration: Yup.number('Valor deve ser numérico')
+    .positive('Insira um mês válido')
+    .required('O mês é obrigatório')
+    .min(1, 'Mês deve ser maior do que 0')
+    .max(12, 'Mês deve ser menor do que 13')
+    .typeError('O mês é obrigatório'),
+  price: Yup.number('Valor deve ser numérico')
+    .positive('Insira um preço válido')
+    .min(1, 'Preço deve ser maior do que 0')
+    .required('O preço é obrigatório')
+    .typeError('O preço é obrigatório'),
 });
 
 export default function StoreUpdate() {
   const { id } = useParams();
 
-  const [plan = {}, setPlan] = useState({});
-  const [title, setTitle] = useState();
+  const [titleForm, setTitle] = useState();
+  const [price, setPrice] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [planInitial, setPlan] = useState({});
+
+  const priceTotal = useMemo(() => formatPrice(price * duration), [
+    price,
+    duration,
+  ]);
 
   useEffect(() => {
     async function loadPlan() {
       try {
         if (id) {
           setTitle('Edição de plano');
-          const response = await api.get(`plan/${id}`);
-
-          setPlan(response.data.student);
+          const response = await api.get(`plans/${id}`);
+          const { plan } = response.data;
+          setPlan(plan);
+          setDuration(plan.duration);
+          setPrice(plan.price);
         } else {
           setTitle('Cadastro de plano');
         }
       } catch (err) {
-        setPlan({});
+        toast.error('Erro para carregar as informações de Plano');
       }
     }
     loadPlan();
-  }, [id]);
+  }, []);
 
-  async function handleSubmit({}, { resetForm }) {}
+  async function handleSubmit({ title }, { resetForm }) {
+    try {
+      if (!id) {
+        const confirmation = confirm(`Deseja incluir o plano ${title} ?`);
+
+        if (!confirmation) {
+          toast.warn('Inclusão do plano cancelada!');
+          return;
+        }
+
+        const response = await api.post('plans', {
+          title,
+          duration,
+          price,
+        });
+
+        if (response.status === 200) {
+          resetForm();
+          setPrice();
+          setDuration();
+          setPlan({});
+          toast.success('Inclusão do plano realizada com sucesso!');
+        } else {
+          toast.error(response.data.error);
+        }
+      } else {
+        const confirmation = confirm(`Deseja alterar o plano ${title} ?`);
+
+        if (!confirmation) {
+          toast.warn('Alteração do plano cancelada!');
+          return;
+        }
+
+        const response = await api.put(`plans/${id}`, {
+          title,
+          duration,
+          price,
+        });
+
+        if (response.status === 200) {
+          toast.success('Alteração do plano realizada com sucesso!');
+        } else {
+          toast.error(response.data.error);
+        }
+      }
+    } catch (err) {
+      toast.error(`Ocorreu um erro no Gerenciamento de Planos`);
+    }
+  }
 
   return (
     <Container>
       <Content>
-        <h1>{title}</h1>
+        <h1>{titleForm}</h1>
         <div>
           <BtnVoltar
             type="button"
@@ -79,38 +141,40 @@ export default function StoreUpdate() {
       </Content>
       <ContentForm>
         <Form
-          initialData={plan}
+          initialData={planInitial}
           schema={schema}
           onSubmit={handleSubmit}
           id="plans"
         >
           <label htmlFor="title">TÍTULO DO PLANO</label>
           <Input name="title" type="text" placeholder="Título Plano" />
-          <div className="myContainer">
-            <div>
-              <label htmlFor="duration">DURAÇÃO (em meses)</label>
-            </div>
-            <div>
-              <label htmlFor="price">PREÇO MENSAL</label>
-            </div>
-            <div>
-              <label htmlFor="priceTotal">PREÇO TOTAL</label>
-            </div>
-          </div>
           <div>
             <div>
-              <Input name="duration" step="0" type="number" placeholder="6" />
-            </div>
-            <div>
+              <label htmlFor="duration">DURAÇÃO (em meses)</label>
               <Input
-                name="price"
-                step="0.01"
-                type="text"
-                placeholder="R$100.00"
+                name="duration"
+                type="number"
+                placeholder="6"
+                onChange={e => setDuration(e.target.value)}
               />
             </div>
             <div>
-              <Input name="priceTotal" step="0.01" type="text" disabled />
+              <label htmlFor="price">PREÇO MENSAL</label>
+              <Input
+                name="price"
+                type="number"
+                placeholder="R$100,00"
+                onChange={e => setPrice(e.target.value)}
+              />
+            </div>
+            <div>
+              <label htmlFor="priceTotal">PREÇO TOTAL</label>
+              <Input
+                name="priceTotal"
+                value={priceTotal}
+                type="text"
+                disabled
+              />
             </div>
           </div>
         </Form>
