@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable no-alert */
 /* eslint-disable no-restricted-globals */
 /* eslint-disable react-hooks/exhaustive-deps */
@@ -126,7 +127,7 @@ export default function StoreUpdate() {
           <BtnVoltar
             type="button"
             onClick={() => {
-              history.push('/students');
+              history.push('/students/list');
             }}
           >
             <MdArrowBack size={22} color="#FFF" />
@@ -145,19 +146,19 @@ export default function StoreUpdate() {
           onSubmit={handleSubmit}
           id="students"
         >
-          <label for="name">NOME COMPLETO</label>
+          <label htmlFor="name">NOME COMPLETO</label>
           <Input name="name" type="text" placeholder="Nome Aluno" />
-          <label for="email">ENDEREÇO DE E-MAIL</label>
+          <label htmlFor="email">ENDEREÇO DE E-MAIL</label>
           <Input name="email" type="email" placeholder="exemplo@email.com" />
           <div className="myContainer">
             <div>
-              <label for="birthDate">DATA NASCIMENTO</label>
+              <label htmlFor="birthDate">DATA NASCIMENTO</label>
             </div>
             <div>
-              <label for="weight">PESO (em kg)</label>
+              <label htmlFor="weight">PESO (em kg)</label>
             </div>
             <div className="myheight">
-              <label for="height">ALTURA</label>
+              <label htmlFor="height">ALTURA</label>
             </div>
           </div>
           <div className="myContainer">

@@ -25,7 +25,7 @@ export default function ListStudents() {
   const [students, setStudents] = useState([]);
   const [student = '', setStudent] = useState();
   const [page = 1, setPage] = useState();
-  const [loading=false, setLoading] = useState();
+  const [loading = false, setLoading] = useState();
 
   useEffect(() => {
     async function loadStudents() {
@@ -100,59 +100,59 @@ export default function ListStudents() {
         </div>
       </Content>
       <ContentTable>
-      {loading ? (
-        <Row>
-          <h1>Carregando Alunos...</h1>
-        </Row>
-      ) : ( 
-        <Table>
+        {loading ? (
           <Row>
-            <TdName>
-              <strong>NOME</strong>
-            </TdName>
-            <TdEmail>
-              <strong>EMAIL</strong>
-            </TdEmail>
-            <TdAge>
-              <strong>IDADE</strong>
-            </TdAge>
+            <h1>Carregando Alunos...</h1>
           </Row>
-          {students.length > 0 ? (
-            students.map(item => (
-              <Row key={item.id} className="border_bottom">
-                <TdName>
-                  <p>{item.name}</p>
-                </TdName>
-                <TdEmail>
-                  <p>{item.email}</p>
-                </TdEmail>
-                <TdAge>
-                  <p>{item.age}</p>
-                </TdAge>
-                <TdEdit>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      history.push(`/students/update/${item.id}`);
-                    }}
-                  >
-                    editar
-                  </button>
-                </TdEdit>
-                <TdDelete>
-                  <button type="button" onClick={() => handleDelete(item)}>
-                    apagar
-                  </button>
-                </TdDelete>
-              </Row>
-            ))
-          ) : (
+        ) : (
+          <Table>
             <Row>
-              <h1>Não foi encontrado nenhum aluno</h1>
+              <TdName>
+                <strong>NOME</strong>
+              </TdName>
+              <TdEmail>
+                <strong>EMAIL</strong>
+              </TdEmail>
+              <TdAge>
+                <strong>IDADE</strong>
+              </TdAge>
             </Row>
-          )}
-        </Table> 
-      )}
+            {students.length > 0 ? (
+              students.map(item => (
+                <Row key={item.id}>
+                  <TdName>
+                    <p>{item.name}</p>
+                  </TdName>
+                  <TdEmail>
+                    <p>{item.email}</p>
+                  </TdEmail>
+                  <TdAge>
+                    <p>{item.age}</p>
+                  </TdAge>
+                  <TdEdit>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        history.push(`/students/update/${item.id}`);
+                      }}
+                    >
+                      editar
+                    </button>
+                  </TdEdit>
+                  <TdDelete>
+                    <button type="button" onClick={() => handleDelete(item)}>
+                      apagar
+                    </button>
+                  </TdDelete>
+                </Row>
+              ))
+            ) : (
+              <Row>
+                <h1>Não foi encontrado nenhum aluno</h1>
+              </Row>
+            )}
+          </Table>
+        )}
       </ContentTable>
       <Page>
         <button

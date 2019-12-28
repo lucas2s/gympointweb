@@ -4,8 +4,9 @@ import Route from './Route';
 
 import SignIn from '~/pages/SignIn';
 import ListStudents from '~/pages/Students/List';
-import StoreUpdateStudent from '~/pages/Students/StoreUpdate';
+import StoreStudent from '~/pages/Students/StoreUpdate';
 import ListPlan from '~/pages/Plans/List';
+import StorePlan from '~/pages/Plans/StoreUpdate';
 import ListEnrollment from '~/pages/Enrollments/List';
 import ListQuestions from '~/pages/Questions/List';
 import InvalidRoute from '~/pages/InvalidRoute';
@@ -14,19 +15,14 @@ export default function Routes() {
   return (
     <Switch>
       <Route path="/" exact component={SignIn} />
+      <Route path="/students/list" component={ListStudents} isPrivate />
+      <Route path="/students/update/:id" component={StoreStudent} isPrivate />
+      <Route path="/students/store" component={StoreStudent} isPrivate />
 
-      <Route path="/students" exact component={ListStudents} isPrivate />
-      <Route
-        path="/students/update/:id"
-        component={StoreUpdateStudent}
-        isPrivate
-      />
-      <Route
-        path="/students/store"
-        component={StoreUpdateStudent}
-        isPrivate
-      />
       <Route path="/plans/list" component={ListPlan} isPrivate />
+      <Route path="/plans/store" component={StorePlan} isPrivate />
+      <Route path="/plans/update/:id" component={StorePlan} isPrivate />
+
       <Route path="/enrollments/list" component={ListEnrollment} isPrivate />
       <Route path="/questions/list" component={ListQuestions} isPrivate />
 
