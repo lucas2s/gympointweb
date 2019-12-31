@@ -76,19 +76,23 @@ export const ContentForm = styled.div`
       border-radius: 4px;
       height: 45px;
       padding-left: 5px;
+
       ::placeholder {
         font-size: 14px;
         line-height: 16px;
         color: #999999;
       }
+
+      :disabled {
+        background: #f5f5f5;
+      }
     }
 
-    input[type='number']::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-    }
-    input[type='number'] {
-      -moz-appearance: textfield;
-      appearance: textfield;
+    span {
+      color: #f64c75;
+      display: flex;
+      margin-bottom: 20px;
+      font-weight: bold;
     }
 
     .myContainer {
@@ -101,20 +105,18 @@ export const ContentForm = styled.div`
       }
     }
 
-    span {
-      color: #f64c75;
+    div {
+      & + div {
+        margin-left: 15px;
+      }
+    }
+
+    .react-datepicker-wrapper {
       display: flex;
-      margin-bottom: 20px;
-      font-weight: bold;
     }
 
     .myDatePicker {
       width: 100%;
-      padding-right: 100px;
-    }
-
-    .myheight {
-      margin-left: 15px;
     }
   }
 `;

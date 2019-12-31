@@ -141,7 +141,7 @@ export default function ListEnrollments() {
                     <button
                       type="button"
                       onClick={() => {
-                        history.push(`/plans/enrollments/${item.id}`);
+                        history.push(`/enrollments/update/${item.id}`);
                       }}
                     >
                       editar

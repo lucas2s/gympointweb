@@ -8,10 +8,9 @@ import { useParams } from 'react-router-dom';
 import { MdArrowBack, MdSave } from 'react-icons/md';
 import { Input, Form } from '@rocketseat/unform';
 import { parseISO } from 'date-fns';
-import ReactDatePicker from 'react-datepicker';
-import pt from 'date-fns/locale/pt';
 
 import * as Yup from 'yup';
+import DatePicker from '~/components/DataPicker';
 
 import {
   Container,
@@ -150,7 +149,7 @@ export default function StoreUpdate() {
           <Input name="name" type="text" placeholder="Nome Aluno" />
           <label htmlFor="email">ENDEREÇO DE E-MAIL</label>
           <Input name="email" type="email" placeholder="exemplo@email.com" />
-          <div className="myContainer">
+          <aside className="myContainer">
             <div>
               <label htmlFor="birthDate">DATA NASCIMENTO</label>
             </div>
@@ -160,21 +159,13 @@ export default function StoreUpdate() {
             <div className="myheight">
               <label htmlFor="height">ALTURA</label>
             </div>
-          </div>
+          </aside>
           <div className="myContainer">
             <div>
-              <ReactDatePicker
-                className="myDatePicker"
-                name="birthDate"
-                dateFormat="dd/MM/yyyy"
-                locale={pt}
+              <DatePicker
+                name="birth_date"
                 selected={birth_date}
                 onChange={date => setBirthDate(date)}
-                placeholderText="dd/mm/yyyy"
-                maxDate={new Date()}
-                showMonthDropdown
-                showYearDropdown
-                dropdownMode="select"
               />
             </div>
             <div>
@@ -185,7 +176,7 @@ export default function StoreUpdate() {
                 placeholder="83.4"
               />
             </div>
-            <div className="myheight">
+            <div>
               <Input
                 name="height"
                 step="0.01"
