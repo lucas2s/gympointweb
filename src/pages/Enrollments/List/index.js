@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import { MdAdd, MdCheckCircle, MdNotInterested } from 'react-icons/md';
 import { toast } from 'react-toastify';
+import {format, parseISO} from 'date-fns';
+import pt from 'date-fns/locale/pt';
 
 import history from '~/services/history';
 import api from '~/services/api';
@@ -37,7 +39,19 @@ export default function ListEnrollments() {
           },
         });
 
-        setEnrollments(response.data.enrollments);
+        console.tron.log(response.data.enrollments);
+
+        setEnrollments(response.data.enrollments.map(enrollment => ({
+          ...enrollment,
+          startDate: format(parseISO(enrollment.start_date),
+            "dd 'de' MMMMMMM 'de' yyyy", {
+            locale: pt
+          }),
+          endDate: format(parseISO(enrollment.end_date),
+            "dd 'de' MMMMMMM 'de' yyyy", {
+            locale: pt
+          })
+        })));
 
         setLoading(false);
       } catch (err) {
@@ -46,20 +60,32 @@ export default function ListEnrollments() {
       }
     }
     loadEnrollments();
-  }, [enrollments.length, page]);
+  }, [page]);
 
-  async function handleDelete(enrollelete) {
+  async function handleEdit(enrollEdit) {
+    if (enrollEdit.active) {
+      toast.error("Matricula ativa, não pode ser editada");
+    } else {
+      history.push(`/enrollments/update/${enrollEdit.id}`);
+    }
+  }
+
+  async function handleDelete(enrollDelete) {
     try {
+      if (enrollDelete.active) {
+        toast.error("Matricula ativa, não pode ser excluída");
+        return
+      }
       const deleted = confirm(`Deseja excluir a matricula?`);
       if (deleted) {
-        const response = await api.delete(`enrollments/${enrollelete.id}`);
+        const response = await api.delete(`enrollments/${enrollDelete.id}`);
         if (response.status !== 200) {
           toast.warn('Não foi possível excluir a matrícula!');
         } else {
           toast.success('Matrícula excluida com sucesso!');
           setEnrollments(
             enrollments.filter(
-              enroomentMap => enroomentMap.id !== enrollelete.id
+              enroomentMap => enroomentMap.id !== enrollDelete.id
             )
           );
         }
@@ -125,25 +151,20 @@ export default function ListEnrollments() {
                     <p>{item.plan.title}</p>
                   </TdPlano>
                   <TdData>
-                    <p>{item.start_date}</p>
+                    <p>{item.startDate}</p>
                   </TdData>
                   <TdData>
-                    <p>{item.end_date}</p>
+                    <p>{item.endDate}</p>
                   </TdData>
                   <TdAtiva>
-                    {item.active ? (
+                    {item.active && !item.canceled ? (
                       <MdCheckCircle size={23} color="#42cb59" />
                     ) : (
                       <MdNotInterested size={23} color="#c4c4c4" />
                     )}
                   </TdAtiva>
                   <TdEdit>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        history.push(`/enrollments/update/${item.id}`);
-                      }}
-                    >
+                    <button type="button" onClick={() => handleEdit(item)}>
                       editar
                     </button>
                   </TdEdit>

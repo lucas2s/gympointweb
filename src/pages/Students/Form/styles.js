@@ -101,10 +101,8 @@ export const ContentForm = styled.div`
       }
     }
 
-    div {
-      & + div {
-        margin-left: 15px;
-      }
+    .myDiv {
+      margin-left: 15px;
     }
 
     span {

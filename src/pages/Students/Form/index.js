@@ -166,9 +166,13 @@ export default function StoreUpdate() {
                 name="birth_date"
                 selected={birth_date}
                 onChange={date => setBirthDate(date)}
+                maxDate={new Date()}
+                showMonthDropdown
+                showYearDropdown
+                dropdownMode="select"
               />
             </div>
-            <div>
+            <div className="myDiv">
               <Input
                 name="weight"
                 step="0.1"
@@ -176,7 +180,7 @@ export default function StoreUpdate() {
                 placeholder="83.4"
               />
             </div>
-            <div>
+            <div className="myDiv">
               <Input
                 name="height"
                 step="0.01"

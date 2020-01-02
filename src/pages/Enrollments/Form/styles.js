@@ -67,7 +67,7 @@ export const ContentForm = styled.div`
   }
 
   form {
-    input {
+    .myInput {
       width: 100%;
       margin: 15px 0px;
       background: #ffffff;
@@ -88,6 +88,28 @@ export const ContentForm = styled.div`
       }
     }
 
+    .mySelectAsync {
+      margin: 15px 0;
+      height: 45px;
+    }
+
+    .mySelect {
+      width: 100%;
+      margin: 15px 0px;
+      background: #ffffff;
+      border: 1px solid #dddddd;
+      box-sizing: border-box;
+      border-radius: 4px;
+      height: 45px;
+      padding-left: 5px;
+
+      ::placeholder {
+        font-size: 14px;
+        line-height: 16px;
+        color: #999999;
+      }
+    }
+
     span {
       color: #f64c75;
       display: flex;
@@ -105,14 +127,16 @@ export const ContentForm = styled.div`
       }
     }
 
-    div {
-      & + div {
-        margin-left: 15px;
-      }
+    .myDiv {
+      margin-left: 15px;
     }
 
     .react-datepicker-wrapper {
       display: flex;
+    }
+
+    .react-datepicker {
+      position: absolute;
     }
 
     .myDatePicker {

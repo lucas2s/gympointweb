@@ -24,15 +24,11 @@ export default function DatePicker({ name, ...rest }) {
   return (
     <>
       <ReactDatePicker
-        className="myDatePicker"
         name={fieldName}
         selected={selected}
         onChange={date => setSelected(date)}
         ref={ref}
         dateFormat="dd/MM/yyyy"
-        showMonthDropdown
-        showYearDropdown
-        dropdownMode="select"
         locale={pt}
         placeholderText="Escolha a data"
         {...rest}
