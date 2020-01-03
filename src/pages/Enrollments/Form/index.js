@@ -139,7 +139,7 @@ export default function StoreUpdate() {
         const response = await api.post('enrollments', {
           student_id: student.value,
           plan_id: plan.id,
-          start_date: startDate,
+          startDate,
         });
 
         if (response.status === 200) {
@@ -149,7 +149,7 @@ export default function StoreUpdate() {
           toast.error(response.data.error);
         }
       } else {
-        const confirmation = confirm(`Deseja a matrícula do aluno ${student.label} ?`);
+        const confirmation = confirm(`Deseja alterar a matrícula do aluno ${student.label} ?`);
 
         if (!confirmation) {
           toast.warn('Alteração da matrícula cancelada!');
@@ -159,7 +159,7 @@ export default function StoreUpdate() {
         const response = await api.put(`enrollments/${id}`, {
           student_id: student.value,
           plan_id: plan.id,
-          start_date: startDate,
+          startDate,
         });
 
         if (response.status === 200) {

@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { MdAdd, MdCheckCircle, MdNotInterested } from 'react-icons/md';
 import { toast } from 'react-toastify';
 import {format, parseISO} from 'date-fns';
+import { zonedTimeToUtc } from 'date-fns-tz';
 import pt from 'date-fns/locale/pt';
 
 import history from '~/services/history';
@@ -24,6 +25,8 @@ import {
   Page,
 } from './styles';
 
+const timeSP = 'America/Sao_Paulo'; 
+
 export default function ListEnrollments() {
   const [enrollments, setEnrollments] = useState([]);
   const [page = 1, setPage] = useState();
@@ -39,11 +42,12 @@ export default function ListEnrollments() {
           },
         });
 
-        console.tron.log(response.data.enrollments);
+        console.tron.log(response.data.enrollments[0].start_date);
+        console.tron.log(response.data.enrollments[0].end_date);
 
         setEnrollments(response.data.enrollments.map(enrollment => ({
           ...enrollment,
-          startDate: format(parseISO(enrollment.start_date),
+          startDate: format(zonedTimeToUtc(parseISO(enrollment.start_date),timeSP),
             "dd 'de' MMMMMMM 'de' yyyy", {
             locale: pt
           }),
