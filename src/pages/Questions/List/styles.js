@@ -156,6 +156,7 @@ export const ModalContent = styled.div`
       border-radius: 4px;
       margin-bottom: 10px;
       padding: 5px;
+      resize: none;
 
       ::placeholder {
         font-size: 14px;
@@ -185,6 +186,13 @@ export const ModalContent = styled.div`
       &:hover {
         background: ${darken(0.08, '#999')};
       }
+    }
+
+    span {
+      color: #f64c75;
+      display: flex;
+      margin-bottom: 20px;
+      font-weight: bold;
     }
   }
 `;
