@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { darken } from 'polished';
 
 export const Container = styled.div`
   max-width: 700px;
@@ -52,7 +53,7 @@ export const Row = styled.div`
   }
 `;
 
-export const TdResp = styled.div`
+export const TdAluno = styled.div`
   width: 100%;
   max-width: 500px;
   display: table;
@@ -105,5 +106,85 @@ export const Page = styled.div`
     font-size: 10px;
     padding: 0 10px;
     color: #666666;
+  }
+`;
+
+export const Modal = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.8);
+`;
+
+export const ModalContent = styled.div`
+  width: 450px;
+  padding: 30px;
+  background: #fff;
+  background: #fff;
+  border-radius: 4px;
+
+  form {
+    display: flex;
+    flex-direction: column;
+
+    strong {
+      font-weight: bold;
+      font-size: 14px;
+      line-height: 16px;
+      color: #444444;
+      margin-bottom: 5px;
+    }
+
+    p {
+      font-size: 16px;
+      line-height: 26px;
+      color: #666666;
+      margin-bottom: 10px;
+    }
+
+    textarea {
+      width: 390px;
+      height: 130px;
+      border: 1px solid #dddddd;
+      box-sizing: border-box;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      padding: 5px;
+
+      ::placeholder {
+        font-size: 14px;
+        line-height: 16px;
+        color: #999999;
+      }
+    }
+
+    button {
+      align-items: center;
+      height: 45px;
+      color: #fff;
+      background: #ee4d64;
+      border-radius: 4px;
+      font-weight: bold;
+      font-size: 14px;
+      border: 0;
+      margin-bottom: 5px;
+
+      &:hover {
+        background: ${darken(0.08, '#ee4d64')};
+      }
+    }
+
+    .closeModal {
+      background: #999;
+      &:hover {
+        background: ${darken(0.08, '#999')};
+      }
+    }
   }
 `;

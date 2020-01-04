@@ -55,7 +55,7 @@ export default function StoreUpdate() {
         if (id) {
           setTitle('Edição de plano');
           const response = await api.get(`plans/${id}`);
-          const { plan } = response.data;
+          const plan = response.data;
           setPlan(plan);
           setDuration(plan.duration);
           setPrice(plan.price);
