@@ -42,9 +42,6 @@ export default function ListEnrollments() {
           },
         });
 
-        console.tron.log(response.data.enrollments[0].start_date);
-        console.tron.log(response.data.enrollments[0].end_date);
-
         setEnrollments(response.data.enrollments.map(enrollment => ({
           ...enrollment,
           startDate: format(zonedTimeToUtc(parseISO(enrollment.start_date),timeSP),
