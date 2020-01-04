@@ -1,13 +1,16 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
+import { signOut } from '~/store/modules/auth/actions';
 import { Container, Content } from './styles';
 import logo from '~/assets/images/logoheader.png';
 
 export default function Header() {
-  function handleLogout() {
-    console.tron.log('Logout');
+  const dispatch = useDispatch();
+
+  function handleSignOut() {
+    dispatch(signOut());
   }
 
   const { name } = useSelector(state => state.user.user);
@@ -44,7 +47,7 @@ export default function Header() {
         </nav>
         <aside>
           <strong>{name}</strong>
-          <button type="button" onClick={handleLogout}>
+          <button type="button" onClick={handleSignOut}>
             sair do sitema
           </button>
         </aside>
