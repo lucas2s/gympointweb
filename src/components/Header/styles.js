@@ -57,6 +57,7 @@ export const Content = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+    margin-right: 20px;
 
     strong {
       font-style: normal;

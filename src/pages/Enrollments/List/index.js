@@ -16,12 +16,8 @@ import {
   ContentTable,
   Table,
   Row,
-  TdAluno,
-  TdPlano,
-  TdData,
-  TdAtiva,
-  TdEdit,
-  TdDelete,
+  ButtonEdit,
+  ButtonDelete,
   Page,
 } from './styles';
 
@@ -125,64 +121,58 @@ export default function ListEnrollments() {
           </Row>
         ) : (
           <Table>
-            <Row>
-              <TdAluno>
-                <strong>ALUNO</strong>
-              </TdAluno>
-              <TdPlano>
-                <strong>PLANO</strong>
-              </TdPlano>
-              <TdData>
-                <strong>INICIO</strong>
-              </TdData>
-              <TdData>
-                <strong>TERMINO</strong>
-              </TdData>
-              <TdAtiva>
-                <strong>Ativa</strong>
-              </TdAtiva>
-            </Row>
-            {enrollments.length > 0 ? (
-              enrollments.map(item => (
-                <Row key={item.id}>
-                  <TdAluno>
-                    <p>{item.student.name}</p>
-                  </TdAluno>
-                  <TdPlano>
-                    <p>{item.plan.title}</p>
-                  </TdPlano>
-                  <TdData>
-                    <p>{item.startDate}</p>
-                  </TdData>
-                  <TdData>
-                    <p>{item.endDate}</p>
-                  </TdData>
-                  <TdAtiva>
-                    {item.active && !item.canceled ? (
-                      <MdCheckCircle size={23} color="#42cb59" />
-                    ) : (
-                      <MdNotInterested size={23} color="#c4c4c4" />
-                    )}
-                  </TdAtiva>
-                  <TdEdit>
-                    <button type="button" onClick={() => handleEdit(item)}>
-                      editar
-                    </button>
-                  </TdEdit>
-                  <TdDelete>
-                    <button type="button" onClick={() => handleDelete(item)}>
-                      apagar
-                    </button>
-                  </TdDelete>
-                </Row>
-              ))
-            ) : (
-              <Row>
+            <thead>
+              <tr>
+                <th><strong>ALUNO</strong></th>
+                <th><strong>PLANO</strong></th>
+                <th><strong>INICIO</strong></th>
+                <th><strong>TERMINO</strong></th>
+                <th><strong>ATIVA</strong></th>
+              </tr>
+            </thead>
+            <tbody>
+              {enrollments.length > 0 ? (
+                enrollments.map(item => (
+                  <tr key={item.id}>
+                    <td>
+                      <p>{item.student.name}</p>
+                    </td>
+                    <td>
+                      <p>{item.plan.title}</p>
+                    </td>
+                    <td>
+                      <p>{item.startDate}</p>
+                    </td>
+                    <td>
+                      <p>{item.endDate}</p>
+                    </td>
+                    <td>
+                      {item.active && !item.canceled ? (
+                        <MdCheckCircle size={23} color="#42cb59" />
+                      ) : (
+                        <MdNotInterested size={23} color="#c4c4c4" />
+                      )}
+                    </td>
+                    <td>
+                      <ButtonEdit type="button" onClick={() => handleEdit(item)}>
+                        editar
+                      </ButtonEdit>
+                    </td>
+                    <td>
+                      <ButtonDelete type="button" onClick={() => handleDelete(item)}>
+                        apagar
+                      </ButtonDelete>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+              <tr>
                 <h1>Não foi encontrado nenhuma matricula</h1>
-              </Row>
-            )}
+              </tr>
+              )}
+            </tbody>
           </Table>
-        )}
+        )} 
       </ContentTable>
       <Page>
         <button
