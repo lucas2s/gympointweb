@@ -31,21 +31,17 @@ export const Row = styled.div`
   display: flex;
   align-items: center;
   padding: 15px 0;
-
   & + div {
     border-bottom: 1px solid #eeeeee;
   }
-
   :last-child {
     border-bottom: 0;
   }
-
   strong {
     font-size: 16px;
     line-height: 19px;
     color: #444444;
   }
-
   p {
     font-size: 16px;
     line-height: 20px;
@@ -63,7 +59,6 @@ export const TdResp = styled.div`
   display: flex;
   flex: 1;
   justify-content: flex-end;
-
   button {
     font-size: 15px;
     line-height: 18px;
@@ -90,18 +85,15 @@ export const Page = styled.div`
     padding: 5px 10px;
     color: #fff;
     box-shadow: 4px 4px 4px #888;
-
     &[disabled] {
       cursor: not-allowed;
       opacity: 0.6;
       box-shadow: none;
     }
-
     &:active {
       box-shadow: none;
     }
   }
-
   span {
     font-size: 10px;
     padding: 0 10px;
@@ -128,11 +120,9 @@ export const ModalContent = styled.div`
   background: #fff;
   background: #fff;
   border-radius: 4px;
-
   form {
     display: flex;
     flex-direction: column;
-
     strong {
       font-weight: bold;
       font-size: 14px;
@@ -140,14 +130,12 @@ export const ModalContent = styled.div`
       color: #444444;
       margin-bottom: 5px;
     }
-
     p {
       font-size: 16px;
       line-height: 26px;
       color: #666666;
       margin-bottom: 10px;
     }
-
     textarea {
       width: 390px;
       height: 130px;
@@ -157,14 +145,12 @@ export const ModalContent = styled.div`
       margin-bottom: 10px;
       padding: 5px;
       resize: none;
-
       ::placeholder {
         font-size: 14px;
         line-height: 16px;
         color: #999999;
       }
     }
-
     button {
       align-items: center;
       height: 45px;
@@ -175,19 +161,16 @@ export const ModalContent = styled.div`
       font-size: 14px;
       border: 0;
       margin-bottom: 5px;
-
       &:hover {
         background: ${darken(0.08, '#ee4d64')};
       }
     }
-
     .closeModal {
       background: #999;
       &:hover {
         background: ${darken(0.08, '#999')};
       }
     }
-
     span {
       color: #f64c75;
       display: flex;

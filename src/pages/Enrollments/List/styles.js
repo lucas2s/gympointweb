@@ -59,18 +59,27 @@ export const Table = styled.table`
     }
   }
 
-  > tr:hover {
+  tr:hover {
     border-bottom: 1px solid #eeeeee;
   }
 
   td {
     border-bottom: 1px solid #eeeeee;
     padding: 15px 0;
+    text-align: center;
     p {
       font-size: 16px;
       line-height: 20px;
       color: #666666;
     }
+  }
+
+  tr:last-child td {
+    border-bottom: 0px;
+  }
+
+  .colRight {
+    text-align: left;
   }
 `;
 
@@ -79,52 +88,11 @@ export const Row = styled.div`
   align-items: center;
   padding: 15px 0;
 
-  & + div {
-    border-bottom: 1px solid #eeeeee;
-  }
-
-  :last-child {
-    border-bottom: 0;
-  }
-
-  strong {
-    font-size: 16px;
-    line-height: 19px;
-    color: #444444;
-  }
-
-  span {
-    flex: 1;
-    border-bottom: 1px solid #eeeeee;
-  }
-
   h1 {
     font-size: 24px;
     line-height: 20px;
     color: #666666;
   }
-
-  .colAluno {
-    text-align: left;
-  }
-`;
-
-
-
-export const TdPlano = styled.div`
-  width: 100px;
-  text-align: center;
-  margin-right: 40px;
-`;
-
-export const TdData = styled.div`
-  width: 250px;
-  text-align: center;
-`;
-
-export const TdAtiva = styled.div`
-  width: 200px;
-  text-align: center;
 `;
 
 export const ButtonEdit = styled.button`
