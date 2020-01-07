@@ -12,8 +12,7 @@ import {
   ContentTable,
   Table,
   Row,
-  TdAluno,
-  TdResp,
+  ButtonResp,
   Page,
   Modal,
   ModalContent,
@@ -100,29 +99,36 @@ export default function ListStudents() {
           </Row>
         ) : (
           <Table>
-            <Row>
-              <TdAluno>
-                <strong>ALUNO</strong>
-              </TdAluno>
-            </Row>
-            {questions.length > 0 ? (
-              questions.map(item => (
-                <Row key={item.id}>
-                  <TdAluno>
-                    <p>{item.student.name}</p>
-                  </TdAluno>
-                  <TdResp>
-                    <button type="button" onClick={() => handleAnswer(item)}>
-                      Responder
-                    </button>
-                  </TdResp>
+            <thead>
+              <tr>
+                <th className="colLeft">
+                  <strong>ALUNO</strong>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {questions.length > 0 ? (
+                questions.map(item => (
+                  <tr key={item.id}>
+                    <td className="colLeft">
+                      <p>{item.student.name}</p>
+                    </td>
+                    <td>
+                      <ButtonResp
+                        type="button"
+                        onClick={() => handleAnswer(item)}
+                      >
+                        Responder
+                      </ButtonResp>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <Row>
+                  <h1>Não foi encontrado nenhum pedido</h1>
                 </Row>
-              ))
-            ) : (
-              <Row>
-                <h1>Não foi encontrado nenhum pedido</h1>
-              </Row>
-            )}
+              )}
+            </tbody>
           </Table>
         )}
       </ContentTable>

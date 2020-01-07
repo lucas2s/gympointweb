@@ -44,7 +44,7 @@ export const ContentTable = styled.div`
 
 export const Table = styled.table`
   width: 100%;
-  max-width: 1200px;
+  max-width: 900px;
   tr {
     padding: 15px 0;
   }
