@@ -13,11 +13,8 @@ import {
   ContentTable,
   Table,
   Row,
-  TdTitle,
-  TdDuration,
-  TdValue,
-  TdEdit,
-  TdDelete,
+  ButtonEdit,
+  ButtonDelete,
   Page,
 } from './styles';
 
@@ -101,51 +98,58 @@ export default function ListPlans() {
           </Row>
         ) : (
           <Table>
-            <Row>
-              <TdTitle>
-                <strong>TÍTULO</strong>
-              </TdTitle>
-              <TdDuration>
-                <strong>DURAÇÃO</strong>
-              </TdDuration>
-              <TdValue>
-                <strong>VALOR p/ MÊS</strong>
-              </TdValue>
-            </Row>
-            {plans.length > 0 ? (
-              plans.map(item => (
-                <Row key={item.id}>
-                  <TdTitle>
-                    <p>{item.title}</p>
-                  </TdTitle>
-                  <TdDuration>
-                    <p>{item.durationFormated}</p>
-                  </TdDuration>
-                  <TdValue>
-                    <p>{item.priceFormatted}</p>
-                  </TdValue>
-                  <TdEdit>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        history.push(`/plans/update/${item.id}`);
-                      }}
-                    >
-                      editar
-                    </button>
-                  </TdEdit>
-                  <TdDelete>
-                    <button type="button" onClick={() => handleDelete(item)}>
-                      apagar
-                    </button>
-                  </TdDelete>
+            <thead>
+              <tr>
+                <th className="colLeft">
+                  <strong>TÍTULO</strong>
+                </th>
+                <th>
+                  <strong>DURAÇÃO</strong>
+                </th>
+                <th>
+                  <strong>VALOR p/ MÊS</strong>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {plans.length > 0 ? (
+                plans.map(item => (
+                  <tr key={item.id}>
+                    <td className="colLeft">
+                      <p>{item.title}</p>
+                    </td>
+                    <td>
+                      <p>{item.durationFormated}</p>
+                    </td>
+                    <td>
+                      <p>{item.priceFormatted}</p>
+                    </td>
+                    <td>
+                      <ButtonEdit
+                        type="button"
+                        onClick={() => {
+                          history.push(`/plans/update/${item.id}`);
+                        }}
+                      >
+                        editar
+                      </ButtonEdit>
+                    </td>
+                    <td>
+                      <ButtonDelete
+                        type="button"
+                        onClick={() => handleDelete(item)}
+                      >
+                        apagar
+                      </ButtonDelete>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <Row>
+                  <h1>Não foi encontrado nenhum plano</h1>
                 </Row>
-              ))
-            ) : (
-              <Row>
-                <h1>Não foi encontrado nenhum plano</h1>
-              </Row>
-            )}
+              )}
+            </tbody>
           </Table>
         )}
       </ContentTable>

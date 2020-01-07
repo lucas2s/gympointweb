@@ -42,40 +42,49 @@ export const ContentTable = styled.div`
   padding: 25px;
 `;
 
-export const Table = styled.div`
+export const Table = styled.table`
   width: 100%;
-  display: table;
+  max-width: 1200px;
+  tr {
+    padding: 15px 0;
+  }
+
+  th {
+    strong {
+      font-size: 16px;
+      line-height: 19px;
+      color: #444444;
+    }
+  }
+
+  tr:hover {
+    border-bottom: 1px solid #eeeeee;
+  }
+
+  td {
+    border-bottom: 1px solid #eeeeee;
+    padding: 15px 0;
+    text-align: center;
+    p {
+      font-size: 16px;
+      line-height: 20px;
+      color: #666666;
+    }
+  }
+
+  tr:last-child td {
+    border-bottom: 0px;
+  }
+
+  .colLeft {
+    text-align: left;
+  }
 `;
 
 export const Row = styled.div`
   display: flex;
   align-items: center;
   padding: 15px 0;
-
-  & + div {
-    border-bottom: 1px solid #eeeeee;
-  }
-
-  :last-child {
-    border-bottom: 0;
-  }
-
-  strong {
-    font-size: 16px;
-    line-height: 19px;
-    color: #444444;
-  }
-
-  p {
-    font-size: 16px;
-    line-height: 20px;
-    color: #666666;
-  }
-
-  span {
-    flex: 1;
-    border-bottom: 1px solid #eeeeee;
-  }
 
   h1 {
     font-size: 24px;
@@ -84,50 +93,28 @@ export const Row = styled.div`
   }
 `;
 
-export const TdTitle = styled.div`
-  width: 400px;
-  text-align: left;
+export const ButtonEdit = styled.button`
+  font-size: 15px;
+  line-height: 18px;
+  text-align: right;
+  color: #4d85ee;
+  border: 0;
+  background: #fff;
+  padding: 0;
+  margin-right: 15px;
+  float: right;
 `;
 
-export const TdDuration = styled.div`
-  width: 100px;
-  text-align: center;
-  margin-right: 40px;
-`;
-
-export const TdValue = styled.div`
-  width: 140px;
-  text-align: center;
-`;
-
-export const TdEdit = styled.div`
-  display: flex;
-  flex: 1;
-  justify-content: flex-end;
-
-  button {
-    font-size: 15px;
-    line-height: 18px;
-    text-align: right;
-    color: #4d85ee;
-    border: 0;
-    background: #fff;
-    padding: 0;
-    margin-right: 15px;
-  }
-`;
-
-export const TdDelete = styled.div`
-  button {
-    font-size: 15px;
-    line-height: 18px;
-    text-align: right;
-    color: #de3b3b;
-    border: 0;
-    background: #fff;
-    padding: 0;
-    margin-right: 15px;
-  }
+export const ButtonDelete = styled.button`
+  font-size: 15px;
+  line-height: 18px;
+  text-align: right;
+  color: #de3b3b;
+  border: 0;
+  background: #fff;
+  padding: 0;
+  margin-right: 15px;
+  float: left;
 `;
 
 export const Page = styled.div`

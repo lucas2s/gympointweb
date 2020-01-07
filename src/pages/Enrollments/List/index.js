@@ -131,7 +131,7 @@ export default function ListEnrollments() {
           <Table>
             <thead>
               <tr>
-                <th className="colRight">
+                <th className="colLeft">
                   <strong>ALUNO</strong>
                 </th>
                 <th>
@@ -152,7 +152,7 @@ export default function ListEnrollments() {
               {enrollments.length > 0 ? (
                 enrollments.map(item => (
                   <tr key={item.id}>
-                    <td className="colRight">
+                    <td className="colLeft">
                       <p>{item.student.name}</p>
                     </td>
                     <td>

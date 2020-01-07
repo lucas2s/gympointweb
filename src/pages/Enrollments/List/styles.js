@@ -78,7 +78,7 @@ export const Table = styled.table`
     border-bottom: 0px;
   }
 
-  .colRight {
+  .colLeft {
     text-align: left;
   }
 `;
@@ -116,6 +116,7 @@ export const ButtonDelete = styled.button`
   background: #fff;
   padding: 0;
   margin-right: 15px;
+  float: left;
 `;
 
 export const Page = styled.div`
