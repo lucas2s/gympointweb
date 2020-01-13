@@ -10,6 +10,7 @@ import { Input, Form } from '@rocketseat/unform';
 import { parseISO } from 'date-fns';
 
 import * as Yup from 'yup';
+import InputFormatNumber from '~/components/InputFormatNumber';
 import DatePicker from '~/components/DataPicker';
 
 import {
@@ -29,12 +30,15 @@ const schema = Yup.object().shape({
   name: Yup.string().required('Informe um nome válido'),
   weight: Yup.number('Valor deve ser numérico')
     .positive('Insira um peso válido')
-    .required('O peso é obrigatória')
+    .required('O peso é obrigatório')
     .typeError('O peso é obrigatório'),
   height: Yup.number('Valor deve ser numérico')
-    .positive('Insira um peso válido')
-    .required('O peso é obrigatória')
-    .typeError('A altura obrigatória'),
+    .positive('Insira uma altura válido')
+    .required('A altura é obrigatória')
+    .typeError('A altura é obrigatória'),
+  birth_date: Yup.date()
+    .required('Data nasciemtno obrigatória')
+    .typeError('Data de nascimento inválida'),
 });
 
 export default function StoreUpdate() {
@@ -174,11 +178,13 @@ export default function StoreUpdate() {
               />
             </div>
             <div className="myDiv">
-              <Input
+              <InputFormatNumber
                 name="weight"
-                step="0.1"
-                type="number"
-                placeholder="83.4"
+                placeholder="83.4kg"
+                decimalSeparator="."
+                decimalScale={1}
+                fixedDecimalScale
+                suffix="kg"
               />
             </div>
             <div className="myDiv">
