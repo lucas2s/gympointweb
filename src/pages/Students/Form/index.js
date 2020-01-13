@@ -41,7 +41,7 @@ export default function StoreUpdate() {
   const { id } = useParams();
 
   const [student = {}, setStudent] = useState({});
-  const [birth_date, setBirthDate] = useState(new Date());
+  const [birth_date, setBirthDate] = useState();
   const [title, setTitle] = useState();
 
   useEffect(() => {
@@ -170,6 +170,7 @@ export default function StoreUpdate() {
                 showMonthDropdown
                 showYearDropdown
                 dropdownMode="select"
+                placeholderText="Data Nascimento"
               />
             </div>
             <div className="myDiv">

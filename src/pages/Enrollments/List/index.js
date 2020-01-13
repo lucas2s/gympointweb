@@ -125,7 +125,11 @@ export default function ListEnrollments() {
       <ContentTable>
         {loading ? (
           <Row>
-            <h1>Carregando matrículas...</h1>
+            <h1>Carregando matriculas...</h1>
+          </Row>
+        ) : enrollments.length <= 0 ? (
+          <Row>
+            <h1>Não foi encontrado nenhuma matricula</h1>
           </Row>
         ) : (
           <Table>
@@ -149,51 +153,42 @@ export default function ListEnrollments() {
               </tr>
             </thead>
             <tbody>
-              {enrollments.length > 0 ? (
-                enrollments.map(item => (
-                  <tr key={item.id}>
-                    <td className="colLeft">
-                      <p>{item.student.name}</p>
-                    </td>
-                    <td>
-                      <p>{item.plan.title}</p>
-                    </td>
-                    <td>
-                      <p>{item.startDate}</p>
-                    </td>
-                    <td>
-                      <p>{item.endDate}</p>
-                    </td>
-                    <td>
-                      {item.active && !item.canceled ? (
-                        <MdCheckCircle size={23} color="#42cb59" />
-                      ) : (
-                        <MdNotInterested size={23} color="#c4c4c4" />
-                      )}
-                    </td>
-                    <td>
-                      <ButtonEdit
-                        type="button"
-                        onClick={() => handleEdit(item)}
-                      >
-                        editar
-                      </ButtonEdit>
-                    </td>
-                    <td>
-                      <ButtonDelete
-                        type="button"
-                        onClick={() => handleDelete(item)}
-                      >
-                        apagar
-                      </ButtonDelete>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <h1>Não foi encontrado nenhuma matricula</h1>
+              {enrollments.map(item => (
+                <tr key={item.id}>
+                  <td className="colLeft">
+                    <p>{item.student.name}</p>
+                  </td>
+                  <td>
+                    <p>{item.plan.title}</p>
+                  </td>
+                  <td>
+                    <p>{item.startDate}</p>
+                  </td>
+                  <td>
+                    <p>{item.endDate}</p>
+                  </td>
+                  <td>
+                    {item.active && !item.canceled ? (
+                      <MdCheckCircle size={23} color="#42cb59" />
+                    ) : (
+                      <MdNotInterested size={23} color="#c4c4c4" />
+                    )}
+                  </td>
+                  <td>
+                    <ButtonEdit type="button" onClick={() => handleEdit(item)}>
+                      editar
+                    </ButtonEdit>
+                  </td>
+                  <td>
+                    <ButtonDelete
+                      type="button"
+                      onClick={() => handleDelete(item)}
+                    >
+                      apagar
+                    </ButtonDelete>
+                  </td>
                 </tr>
-              )}
+              ))}
             </tbody>
           </Table>
         )}

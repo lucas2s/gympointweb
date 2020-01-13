@@ -96,6 +96,10 @@ export default function ListPlans() {
           <Row>
             <h1>Carregando Planos...</h1>
           </Row>
+        ) : plans.length <= 0 ? (
+          <Row>
+            <h1>Não foi encontrado nenhum plano</h1>
+          </Row>
         ) : (
           <Table>
             <thead>
@@ -112,43 +116,37 @@ export default function ListPlans() {
               </tr>
             </thead>
             <tbody>
-              {plans.length > 0 ? (
-                plans.map(item => (
-                  <tr key={item.id}>
-                    <td className="colLeft">
-                      <p>{item.title}</p>
-                    </td>
-                    <td>
-                      <p>{item.durationFormated}</p>
-                    </td>
-                    <td>
-                      <p>{item.priceFormatted}</p>
-                    </td>
-                    <td>
-                      <ButtonEdit
-                        type="button"
-                        onClick={() => {
-                          history.push(`/plans/update/${item.id}`);
-                        }}
-                      >
-                        editar
-                      </ButtonEdit>
-                    </td>
-                    <td>
-                      <ButtonDelete
-                        type="button"
-                        onClick={() => handleDelete(item)}
-                      >
-                        apagar
-                      </ButtonDelete>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <Row>
-                  <h1>Não foi encontrado nenhum plano</h1>
-                </Row>
-              )}
+              {plans.map(item => (
+                <tr key={item.id}>
+                  <td className="colLeft">
+                    <p>{item.title}</p>
+                  </td>
+                  <td>
+                    <p>{item.durationFormated}</p>
+                  </td>
+                  <td>
+                    <p>{item.priceFormatted}</p>
+                  </td>
+                  <td>
+                    <ButtonEdit
+                      type="button"
+                      onClick={() => {
+                        history.push(`/plans/update/${item.id}`);
+                      }}
+                    >
+                      editar
+                    </ButtonEdit>
+                  </td>
+                  <td>
+                    <ButtonDelete
+                      type="button"
+                      onClick={() => handleDelete(item)}
+                    >
+                      apagar
+                    </ButtonDelete>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </Table>
         )}

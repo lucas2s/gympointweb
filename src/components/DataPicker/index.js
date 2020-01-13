@@ -30,7 +30,6 @@ export default function DatePicker({ name, ...rest }) {
         ref={ref}
         dateFormat="dd/MM/yyyy"
         locale={pt}
-        placeholderText="Escolha a data"
         {...rest}
       />
 

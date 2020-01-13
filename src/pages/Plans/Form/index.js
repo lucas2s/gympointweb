@@ -20,6 +20,7 @@ import {
 import history from '~/services/history';
 import api from '~/services/api';
 import { formatPrice } from '~/util/format';
+import InputCurrency from '~/components/InputCurrency';
 
 const schema = Yup.object().shape({
   title: Yup.string().required('Informe um Título'),
@@ -40,14 +41,14 @@ export default function StoreUpdate() {
   const { id } = useParams();
 
   const [titleForm, setTitle] = useState();
-  const [price, setPrice] = useState(0);
-  const [duration, setDuration] = useState(0);
-  const [planInitial, setPlan] = useState({});
+  const [price, setPrice] = useState();
+  const [duration, setDuration] = useState();
+  const [plan, setPlan] = useState({});
 
-  const priceTotal = useMemo(() => formatPrice(price * duration), [
-    price,
-    duration,
-  ]);
+  const priceTotal = useMemo(() => {
+    if (price && duration) return formatPrice(price * duration);
+    return formatPrice(0);
+  }, [price, duration]);
 
   useEffect(() => {
     async function loadPlan() {
@@ -55,10 +56,11 @@ export default function StoreUpdate() {
         if (id) {
           setTitle('Edição de plano');
           const response = await api.get(`plans/${id}`);
-          const plan = response.data;
-          setPlan(plan);
-          setDuration(plan.duration);
-          setPrice(plan.price);
+          const initial = response.data;
+
+          setPlan(initial);
+          setDuration(initial.duration);
+          setPrice(initial.price);
         } else {
           setTitle('Cadastro de plano');
         }
@@ -119,6 +121,11 @@ export default function StoreUpdate() {
     }
   }
 
+  const handlePrice = values => {
+    const priced = values.floatValue;
+    setPrice(priced);
+  };
+
   return (
     <Container>
       <Content>
@@ -141,7 +148,7 @@ export default function StoreUpdate() {
       </Content>
       <ContentForm>
         <Form
-          initialData={planInitial}
+          initialData={plan}
           schema={schema}
           onSubmit={handleSubmit}
           id="plans"
@@ -160,11 +167,10 @@ export default function StoreUpdate() {
             </div>
             <div>
               <label htmlFor="price">PREÇO MENSAL</label>
-              <Input
+              <InputCurrency
                 name="price"
-                type="number"
-                placeholder="R$100,00"
-                onChange={e => setPrice(e.target.value)}
+                value={price}
+                handleChangeValue={values => handlePrice(values)}
               />
             </div>
             <div>

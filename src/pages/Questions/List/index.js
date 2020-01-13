@@ -95,7 +95,11 @@ export default function ListStudents() {
       <ContentTable>
         {loading ? (
           <Row>
-            <h1>Carregando Pedidos de auxilio...</h1>
+            <h1>Carregando Pedidos de auxílio...</h1>
+          </Row>
+        ) : questions.length <= 0 ? (
+          <Row>
+            <h1>Não foi encontrado nenhum Pedido de auxílio</h1>
           </Row>
         ) : (
           <Table>
@@ -107,27 +111,21 @@ export default function ListStudents() {
               </tr>
             </thead>
             <tbody>
-              {questions.length > 0 ? (
-                questions.map(item => (
-                  <tr key={item.id}>
-                    <td className="colLeft">
-                      <p>{item.student.name}</p>
-                    </td>
-                    <td>
-                      <ButtonResp
-                        type="button"
-                        onClick={() => handleAnswer(item)}
-                      >
-                        Responder
-                      </ButtonResp>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <Row>
-                  <h1>Não foi encontrado nenhum pedido</h1>
-                </Row>
-              )}
+              {questions.map(item => (
+                <tr key={item.id}>
+                  <td className="colLeft">
+                    <p>{item.student.name}</p>
+                  </td>
+                  <td>
+                    <ButtonResp
+                      type="button"
+                      onClick={() => handleAnswer(item)}
+                    >
+                      Responder
+                    </ButtonResp>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </Table>
         )}

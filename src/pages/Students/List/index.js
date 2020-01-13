@@ -101,6 +101,10 @@ export default function ListStudents() {
           <Row>
             <h1>Carregando Alunos...</h1>
           </Row>
+        ) : students.length <= 0 ? (
+          <Row>
+            <h1>Não foi encontrado nenhum aluno</h1>
+          </Row>
         ) : (
           <Table>
             <thead>
@@ -117,43 +121,37 @@ export default function ListStudents() {
               </tr>
             </thead>
             <tbody>
-              {students.length > 0 ? (
-                students.map(item => (
-                  <tr key={item.id}>
-                    <td className="colLeft">
-                      <p>{item.name}</p>
-                    </td>
-                    <td className="colLeft">
-                      <p>{item.email}</p>
-                    </td>
-                    <td>
-                      <p>{item.age}</p>
-                    </td>
-                    <td>
-                      <ButtonEdit
-                        type="button"
-                        onClick={() => {
-                          history.push(`/students/update/${item.id}`);
-                        }}
-                      >
-                        editar
-                      </ButtonEdit>
-                    </td>
-                    <td>
-                      <ButtonDelete
-                        type="button"
-                        onClick={() => handleDelete(item)}
-                      >
-                        apagar
-                      </ButtonDelete>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <Row>
-                  <h1>Não foi encontrado nenhum aluno</h1>
-                </Row>
-              )}
+              {students.map(item => (
+                <tr key={item.id}>
+                  <td className="colLeft">
+                    <p>{item.name}</p>
+                  </td>
+                  <td className="colLeft">
+                    <p>{item.email}</p>
+                  </td>
+                  <td>
+                    <p>{item.age}</p>
+                  </td>
+                  <td>
+                    <ButtonEdit
+                      type="button"
+                      onClick={() => {
+                        history.push(`/students/update/${item.id}`);
+                      }}
+                    >
+                      editar
+                    </ButtonEdit>
+                  </td>
+                  <td>
+                    <ButtonDelete
+                      type="button"
+                      onClick={() => handleDelete(item)}
+                    >
+                      apagar
+                    </ButtonDelete>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </Table>
         )}
