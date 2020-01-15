@@ -188,11 +188,13 @@ export default function StoreUpdate() {
               />
             </div>
             <div className="myDiv">
-              <Input
+              <InputFormatNumber
                 name="height"
-                step="0.01"
-                type="number"
-                placeholder="1.88"
+                placeholder="1.88m"
+                decimalSeparator="."
+                decimalScale={2}
+                fixedDecimalScale
+                suffix="m"
               />
             </div>
           </div>

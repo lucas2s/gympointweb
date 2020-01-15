@@ -57,6 +57,8 @@ export default function ListStudents() {
     try {
       const deleted = confirm(`Deseja apagar o aluno ${studentDelete.name} ?`);
       if (deleted) {
+
+        console.log(studentDelete.id);
         const response = await api.delete(`students/${studentDelete.id}`);
         if (response.status !== 200) {
           toast.warn('Não foi possível apagar o aluno!');

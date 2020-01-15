@@ -1,10 +1,10 @@
 import React, { useRef, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import CurrencyInput from 'react-number-format';
+import FormatNumberInput from 'react-number-format';
 
 import { useField } from '@rocketseat/unform';
 
-export default function InputCurrency({ name, ...rest }) {
+export default function InputFormatNumber({ name, ...rest }) {
   const ref = useRef(null);
   const { fieldName, registerField, defaultValue, error } = useField(name);
   const [valued, setValued] = useState(defaultValue);
@@ -15,14 +15,18 @@ export default function InputCurrency({ name, ...rest }) {
       ref: ref.current,
       path: 'props.value',
       clearValue: valueRef => {
-        valueRef.value = '';
+        setValued(null);
       },
     });
   }, [ref.current, fieldName]); // eslint-disable-line
 
+  useEffect(() => {
+    setValued(defaultValue);
+  }, [defaultValue]); // eslint-disable-line
+
   return (
     <>
-      <CurrencyInput
+      <FormatNumberInput
         name={fieldName}
         value={valued}
         ref={ref}
@@ -34,6 +38,6 @@ export default function InputCurrency({ name, ...rest }) {
   );
 }
 
-InputCurrency.propTypes = {
+InputFormatNumber.propTypes = {
   name: PropTypes.string.isRequired,
 };
