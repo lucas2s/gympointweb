@@ -130,7 +130,7 @@ export const Page = styled.div`
     font-size: 14px;
     padding: 5px 10px;
     color: #fff;
-    box-shadow: 4px 4px 4px #888;
+    box-shadow: 4px 4px 4px #bbb;
 
     &[disabled] {
       cursor: not-allowed;

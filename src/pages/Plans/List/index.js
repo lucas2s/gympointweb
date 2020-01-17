@@ -1,8 +1,9 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-alert */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import { MdAdd } from 'react-icons/md';
+import { AiFillCaretLeft, AiFillCaretRight } from 'react-icons/ai';
 import api from '~/services/api';
 import history from '~/services/history';
 import { formatPrice } from '~/util/format';
@@ -23,8 +24,8 @@ export default function ListPlans() {
   const [page = 1, setPage] = useState();
   const [loading = false, setLoading] = useState();
 
-  useEffect(() => {
-    async function loadPlans() {
+  const loadPlans = useCallback(() => {
+    async function load() {
       try {
         setLoading(true);
         const response = await api.get('plans', {
@@ -49,8 +50,12 @@ export default function ListPlans() {
         setLoading(false);
       }
     }
-    loadPlans();
+    load();
   }, [page]);
+
+  useEffect(() => {
+    loadPlans();
+  }, [loadPlans, page]);
 
   async function handlePage(rel) {
     await (rel === 'next' ? setPage(page + 1) : setPage(page - 1));
@@ -65,7 +70,11 @@ export default function ListPlans() {
           toast.warn('Não foi possível apagar o plano!');
         } else {
           toast.success('Plano apagado com sucesso!');
-          setPlans(plans.filter(planMap => planMap.id !== planDelete.id));
+          if (plans.length < 10) {
+            setPlans(plans.filter(planMap => planMap.id !== planDelete.id));
+          } else {
+            loadPlans();
+          }
         }
       } else {
         toast.warn('Deleção Cancelada!');
@@ -158,7 +167,7 @@ export default function ListPlans() {
           onClick={() => handlePage('last')}
           disabled={page < 2}
         >
-          Página Anterior
+          <AiFillCaretLeft />
         </button>
         <span>{page}</span>
         <button
@@ -167,7 +176,7 @@ export default function ListPlans() {
           onClick={() => handlePage('next')}
           disabled={plans.length < 10}
         >
-          Próxima Página
+          <AiFillCaretRight />
         </button>
       </Page>
     </Container>

@@ -1,9 +1,10 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-alert */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Input, Form } from '@rocketseat/unform';
 import { toast } from 'react-toastify';
 import { MdAdd, MdSearch } from 'react-icons/md';
+import { AiFillCaretLeft, AiFillCaretRight } from 'react-icons/ai';
 import api from '~/services/api';
 import history from '~/services/history';
 
@@ -24,8 +25,8 @@ export default function ListStudents() {
   const [page = 1, setPage] = useState();
   const [loading = false, setLoading] = useState();
 
-  useEffect(() => {
-    async function loadStudents() {
+  const loadStudents = useCallback(() => {
+    async function load() {
       try {
         setLoading(true);
         const response = await api.get('students', {
@@ -42,8 +43,12 @@ export default function ListStudents() {
         setLoading(false);
       }
     }
-    loadStudents();
+    load();
   }, [page, student]);
+
+  useEffect(() => {
+    loadStudents();
+  }, [page, student, loadStudents]);
 
   async function handlePage(rel) {
     await (rel === 'next' ? setPage(page + 1) : setPage(page - 1));
@@ -57,15 +62,18 @@ export default function ListStudents() {
     try {
       const deleted = confirm(`Deseja apagar o aluno ${studentDelete.name} ?`);
       if (deleted) {
-
         const response = await api.delete(`students/${studentDelete.id}`);
         if (response.status !== 200) {
           toast.warn('Não foi possível apagar o aluno!');
         } else {
           toast.success('Aluno apagado com sucesso!');
-          setStudents(
-            students.filter(studentMap => studentMap.id !== studentDelete.id)
-          );
+          if (students.length < 10) {
+            setStudents(
+              students.filter(studentMap => studentMap.id !== studentDelete.id)
+            );
+          } else {
+            loadStudents();
+          }
         }
       } else {
         toast.warn('Deleção Cancelada!');
@@ -164,7 +172,7 @@ export default function ListStudents() {
           onClick={() => handlePage('last')}
           disabled={page < 2}
         >
-          Página Anterior
+          <AiFillCaretLeft />
         </button>
         <span>{page}</span>
         <button
@@ -173,7 +181,7 @@ export default function ListStudents() {
           onClick={() => handlePage('next')}
           disabled={students.length < 10}
         >
-          Próxima Página
+          <AiFillCaretRight />
         </button>
       </Page>
     </Container>

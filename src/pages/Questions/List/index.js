@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { Form } from '@rocketseat/unform';
 import { toast } from 'react-toastify';
+import { AiFillCaretLeft, AiFillCaretRight } from 'react-icons/ai';
 
 import api from '~/services/api';
 
@@ -137,7 +138,7 @@ export default function ListStudents() {
           onClick={() => handlePage('last')}
           disabled={page < 2}
         >
-          Página Anterior
+          <AiFillCaretLeft />
         </button>
         <span>{page}</span>
         <button
@@ -146,7 +147,7 @@ export default function ListStudents() {
           onClick={() => handlePage('next')}
           disabled={questions.length < 10}
         >
-          Próxima Página
+          <AiFillCaretRight />
         </button>
       </Page>
       {modal && (

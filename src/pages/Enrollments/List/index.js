@@ -1,7 +1,8 @@
 /* eslint-disable no-alert */
 /* eslint-disable no-restricted-globals */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { MdAdd, MdCheckCircle, MdNotInterested } from 'react-icons/md';
+import { AiFillCaretLeft, AiFillCaretRight } from 'react-icons/ai';
 import { toast } from 'react-toastify';
 import { format, parseISO } from 'date-fns';
 import { zonedTimeToUtc } from 'date-fns-tz';
@@ -28,8 +29,8 @@ export default function ListEnrollments() {
   const [page = 1, setPage] = useState();
   const [loading = false, setLoading] = useState();
 
-  useEffect(() => {
-    async function loadEnrollments() {
+  const loadEnrollments = useCallback(() => {
+    async function load() {
       try {
         setLoading(true);
         const response = await api.get('enrollments', {
@@ -64,8 +65,12 @@ export default function ListEnrollments() {
         setLoading(false);
       }
     }
-    loadEnrollments();
+    load();
   }, [page]);
+
+  useEffect(() => {
+    loadEnrollments();
+  }, [loadEnrollments, page]);
 
   async function handleEdit(enrollEdit) {
     if (enrollEdit.active) {
@@ -88,11 +93,15 @@ export default function ListEnrollments() {
           toast.warn('Não foi possível excluir a matrícula!');
         } else {
           toast.success('Matrícula excluida com sucesso!');
-          setEnrollments(
-            enrollments.filter(
-              enroomentMap => enroomentMap.id !== enrollDelete.id
-            )
-          );
+          if (enrollments.length < 10) {
+            setEnrollments(
+              enrollments.filter(
+                enroomentMap => enroomentMap.id !== enrollDelete.id
+              )
+            );
+          } else {
+            loadEnrollments();
+          }
         }
       } else {
         toast.warn('Exclusão Cancelada!');
@@ -200,7 +209,7 @@ export default function ListEnrollments() {
           onClick={() => handlePage('last')}
           disabled={page < 2}
         >
-          Página Anterior
+          <AiFillCaretLeft />
         </button>
         <span>{page}</span>
         <button
@@ -209,7 +218,7 @@ export default function ListEnrollments() {
           onClick={() => handlePage('next')}
           disabled={enrollments.length < 10}
         >
-          Próxima Página
+          <AiFillCaretRight />
         </button>
       </Page>
     </Container>
