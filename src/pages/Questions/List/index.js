@@ -3,8 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import { Form } from '@rocketseat/unform';
 import { toast } from 'react-toastify';
-import { AiFillCaretLeft, AiFillCaretRight } from 'react-icons/ai';
 
+import Pagination from '~/components/Pagination';
 import api from '~/services/api';
 
 import {
@@ -14,7 +14,6 @@ import {
   Table,
   Row,
   ButtonResp,
-  Page,
   Modal,
   ModalContent,
 } from './styles';
@@ -46,10 +45,6 @@ export default function ListStudents() {
     }
     loadHelpOrders();
   }, [page]);
-
-  async function handlePage(rel) {
-    await (rel === 'next' ? setPage(page + 1) : setPage(page - 1));
-  }
 
   async function handleAnswer(item) {
     setModal(true);
@@ -131,25 +126,7 @@ export default function ListStudents() {
           </Table>
         )}
       </ContentTable>
-      <Page>
-        <button
-          type="button"
-          value="last"
-          onClick={() => handlePage('last')}
-          disabled={page < 2}
-        >
-          <AiFillCaretLeft />
-        </button>
-        <span>{page}</span>
-        <button
-          type="button"
-          value="next"
-          onClick={() => handlePage('next')}
-          disabled={questions.length < 10}
-        >
-          <AiFillCaretRight />
-        </button>
-      </Page>
+      <Pagination page={page} setPage={setPage} list={questions} />
       {modal && (
         <Modal>
           <ModalContent>

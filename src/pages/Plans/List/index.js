@@ -3,10 +3,10 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import { MdAdd } from 'react-icons/md';
-import { AiFillCaretLeft, AiFillCaretRight } from 'react-icons/ai';
 import api from '~/services/api';
 import history from '~/services/history';
 import { formatPrice } from '~/util/format';
+import Pagination from '~/components/Pagination';
 
 import {
   Container,
@@ -16,7 +16,6 @@ import {
   Row,
   ButtonEdit,
   ButtonDelete,
-  Page,
 } from './styles';
 
 export default function ListPlans() {
@@ -56,10 +55,6 @@ export default function ListPlans() {
   useEffect(() => {
     loadPlans();
   }, [loadPlans, page]);
-
-  async function handlePage(rel) {
-    await (rel === 'next' ? setPage(page + 1) : setPage(page - 1));
-  }
 
   async function handleDelete(planDelete) {
     try {
@@ -160,25 +155,7 @@ export default function ListPlans() {
           </Table>
         )}
       </ContentTable>
-      <Page>
-        <button
-          type="button"
-          value="last"
-          onClick={() => handlePage('last')}
-          disabled={page < 2}
-        >
-          <AiFillCaretLeft />
-        </button>
-        <span>{page}</span>
-        <button
-          type="button"
-          value="next"
-          onClick={() => handlePage('next')}
-          disabled={plans.length < 10}
-        >
-          <AiFillCaretRight />
-        </button>
-      </Page>
+      <Pagination page={page} setPage={setPage} list={plans} />
     </Container>
   );
 }

@@ -13,9 +13,6 @@ export default function InputCurrency({ name, value, handleChangeValue }) {
       name: fieldName,
       ref: ref.current,
       path: 'props.value',
-      clearValue: valueRef => {
-        valueRef.value = '';
-      },
     });
   }, [ref.current, fieldName]); // eslint-disable-line
 

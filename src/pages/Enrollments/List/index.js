@@ -2,11 +2,12 @@
 /* eslint-disable no-restricted-globals */
 import React, { useState, useEffect, useCallback } from 'react';
 import { MdAdd, MdCheckCircle, MdNotInterested } from 'react-icons/md';
-import { AiFillCaretLeft, AiFillCaretRight } from 'react-icons/ai';
 import { toast } from 'react-toastify';
 import { format, parseISO } from 'date-fns';
 import { zonedTimeToUtc } from 'date-fns-tz';
 import pt from 'date-fns/locale/pt';
+
+import Pagination from '~/components/Pagination';
 
 import history from '~/services/history';
 import api from '~/services/api';
@@ -19,7 +20,6 @@ import {
   Row,
   ButtonEdit,
   ButtonDelete,
-  Page,
 } from './styles';
 
 const timeSP = 'America/Sao_Paulo';
@@ -111,10 +111,6 @@ export default function ListEnrollments() {
     }
   }
 
-  async function handlePage(rel) {
-    await (rel === 'next' ? setPage(page + 1) : setPage(page - 1));
-  }
-
   return (
     <Container>
       <Content>
@@ -202,25 +198,7 @@ export default function ListEnrollments() {
           </Table>
         )}
       </ContentTable>
-      <Page>
-        <button
-          type="button"
-          value="last"
-          onClick={() => handlePage('last')}
-          disabled={page < 2}
-        >
-          <AiFillCaretLeft />
-        </button>
-        <span>{page}</span>
-        <button
-          type="button"
-          value="next"
-          onClick={() => handlePage('next')}
-          disabled={enrollments.length < 10}
-        >
-          <AiFillCaretRight />
-        </button>
-      </Page>
+      <Pagination page={page} setPage={setPage} list={enrollments} />
     </Container>
   );
 }

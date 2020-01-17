@@ -4,9 +4,9 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { Input, Form } from '@rocketseat/unform';
 import { toast } from 'react-toastify';
 import { MdAdd, MdSearch } from 'react-icons/md';
-import { AiFillCaretLeft, AiFillCaretRight } from 'react-icons/ai';
 import api from '~/services/api';
 import history from '~/services/history';
+import Pagination from '~/components/Pagination';
 
 import {
   Container,
@@ -16,7 +16,6 @@ import {
   Row,
   ButtonEdit,
   ButtonDelete,
-  Page,
 } from './styles';
 
 export default function ListStudents() {
@@ -49,10 +48,6 @@ export default function ListStudents() {
   useEffect(() => {
     loadStudents();
   }, [page, student, loadStudents]);
-
-  async function handlePage(rel) {
-    await (rel === 'next' ? setPage(page + 1) : setPage(page - 1));
-  }
 
   async function handleSearch({ studentSearch }) {
     await setStudent(studentSearch);
@@ -165,25 +160,7 @@ export default function ListStudents() {
           </Table>
         )}
       </ContentTable>
-      <Page>
-        <button
-          type="button"
-          value="last"
-          onClick={() => handlePage('last')}
-          disabled={page < 2}
-        >
-          <AiFillCaretLeft />
-        </button>
-        <span>{page}</span>
-        <button
-          type="button"
-          value="next"
-          onClick={() => handlePage('next')}
-          disabled={students.length < 10}
-        >
-          <AiFillCaretRight />
-        </button>
-      </Page>
+      <Pagination page={page} setPage={setPage} list={students} />
     </Container>
   );
 }

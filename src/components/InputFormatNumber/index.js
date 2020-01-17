@@ -14,7 +14,7 @@ export default function InputFormatNumber({ name, ...rest }) {
       name: fieldName,
       ref: ref.current,
       path: 'props.value',
-      clearValue: valueRef => {
+      clearValue: () => {
         setValued(null);
       },
     });
