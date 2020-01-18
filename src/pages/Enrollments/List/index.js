@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import { format, parseISO } from 'date-fns';
 import { zonedTimeToUtc } from 'date-fns-tz';
 import pt from 'date-fns/locale/pt';
+import { confirmAlert } from 'react-confirm-alert';
 
 import Pagination from '~/components/Pagination';
 
@@ -80,35 +81,50 @@ export default function ListEnrollments() {
     }
   }
 
-  async function handleDelete(enrollDelete) {
+  async function deleteEnrollment(enrollDelete) {
     try {
-      if (enrollDelete.active) {
-        toast.error('Matricula ativa, não pode ser excluída');
-        return;
-      }
-      const deleted = confirm(`Deseja excluir a matricula?`);
-      if (deleted) {
-        const response = await api.delete(`enrollments/${enrollDelete.id}`);
-        if (response.status !== 200) {
-          toast.warn('Não foi possível excluir a matrícula!');
-        } else {
-          toast.success('Matrícula excluida com sucesso!');
-          if (enrollments.length < 10) {
-            setEnrollments(
-              enrollments.filter(
-                enroomentMap => enroomentMap.id !== enrollDelete.id
-              )
-            );
-          } else {
-            loadEnrollments();
-          }
-        }
+      const response = await api.delete(`enrollments/${enrollDelete.id}`);
+      if (response.status !== 200) {
+        toast.warn('Não foi possível excluir a matrícula!');
       } else {
-        toast.warn('Exclusão Cancelada!');
+        toast.success('Matrícula excluida com sucesso!');
+        if (enrollments.length < 10) {
+          setEnrollments(
+            enrollments.filter(
+              enroomentMap => enroomentMap.id !== enrollDelete.id
+            )
+          );
+        } else {
+          loadEnrollments();
+        }
       }
     } catch (err) {
       toast.error('Erro para excluir a matrícula.');
     }
+  }
+
+  function handleDelete(enrollDelete) {
+    if (enrollDelete.active) {
+      toast.error('Matricula ativa, não pode ser excluída');
+      return;
+    }
+
+    confirmAlert({
+      title: 'Exclusão',
+      message: 'Deseja excluir a matricula?',
+      buttons: [
+        {
+          label: 'Apagar',
+          onClick: () => {
+            deleteEnrollment(enrollDelete.id);
+          },
+        },
+        {
+          label: 'Cancelar',
+          onClick: () => toast.warn('Exclusão Cancelada!'),
+        },
+      ],
+    });
   }
 
   return (

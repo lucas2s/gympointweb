@@ -1,9 +1,9 @@
-/* eslint-disable no-restricted-globals */
-/* eslint-disable no-alert */
 import React, { useEffect, useState, useCallback } from 'react';
 import { Input, Form } from '@rocketseat/unform';
 import { toast } from 'react-toastify';
 import { MdAdd, MdSearch } from 'react-icons/md';
+import { confirmAlert } from 'react-confirm-alert';
+
 import api from '~/services/api';
 import history from '~/services/history';
 import Pagination from '~/components/Pagination';
@@ -53,29 +53,41 @@ export default function ListStudents() {
     await setStudent(studentSearch);
   }
 
-  async function handleDelete(studentDelete) {
+  async function deleteStudent(id) {
     try {
-      const deleted = confirm(`Deseja apagar o aluno ${studentDelete.name} ?`);
-      if (deleted) {
-        const response = await api.delete(`students/${studentDelete.id}`);
-        if (response.status !== 200) {
-          toast.warn('Não foi possível apagar o aluno!');
-        } else {
-          toast.success('Aluno apagado com sucesso!');
-          if (students.length < 10) {
-            setStudents(
-              students.filter(studentMap => studentMap.id !== studentDelete.id)
-            );
-          } else {
-            loadStudents();
-          }
-        }
+      const response = await api.delete(`students/${id}`);
+      if (response.status !== 200) {
+        toast.warn('Não foi possível apagar o aluno!');
       } else {
-        toast.warn('Deleção Cancelada!');
+        toast.success('Aluno apagado com sucesso!');
+        if (students.length < 10) {
+          setStudents(students.filter(studentMap => studentMap.id !== id));
+        } else {
+          loadStudents();
+        }
       }
     } catch (err) {
       toast.error('Erro para apagar o aluno.');
     }
+  }
+
+  function handleDelete(studentDelete) {
+    confirmAlert({
+      title: 'Exclusão',
+      message: `Deseja apagar o aluno ${studentDelete.name} ?`,
+      buttons: [
+        {
+          label: 'Apagar',
+          onClick: () => {
+            deleteStudent(studentDelete.id);
+          },
+        },
+        {
+          label: 'Cancelar',
+          onClick: () => toast.warn('Exclusão Cancelada!'),
+        },
+      ],
+    });
   }
 
   return (

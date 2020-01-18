@@ -37,7 +37,11 @@ export default function Pagination({ page, setPage, list }) {
 Pagination.propTypes = {
   page: PropTypes.number.isRequired,
   setPage: PropTypes.func.isRequired,
-  list: PropTypes.arrayOf.isRequired,
+  list: PropTypes.arrayOf(
+    PropTypes.shape({
+      length: PropTypes.number,
+    })
+  ).isRequired,
 };
 
 Pagination.defaultProps = {};

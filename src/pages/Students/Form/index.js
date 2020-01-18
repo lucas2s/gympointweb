@@ -1,13 +1,10 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
-/* eslint-disable no-alert */
-/* eslint-disable no-restricted-globals */
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useParams } from 'react-router-dom';
 import { MdArrowBack, MdSave } from 'react-icons/md';
 import { Input, Form } from '@rocketseat/unform';
 import { parseISO } from 'date-fns';
+import { confirmAlert } from 'react-confirm-alert';
 
 import * as Yup from 'yup';
 import InputFormatNumber from '~/components/InputFormatNumber';
@@ -67,58 +64,86 @@ export default function StoreUpdate() {
       }
     }
     loadStudent();
-  }, []);
+  }, [id]);
 
-  async function handleSubmit({ name, email, weight, height }, { resetForm }) {
+  async function updateStudent(name, email, weight, height) {
     try {
-      if (!id) {
-        const confirmation = confirm(`Deseja incluir o aluno ${name} ?`);
+      const response = await api.put(`students/${id}`, {
+        name,
+        email,
+        weight,
+        height,
+        birth_date,
+      });
 
-        if (!confirmation) {
-          toast.warn('Inclusão do aluno cancelada!');
-          return;
-        }
-
-        const response = await api.post('students', {
-          name,
-          email,
-          weight,
-          height,
-          birth_date,
-        });
-
-        if (response.status === 200) {
-          resetForm();
-          setBirthDate();
-          setStudent({});
-          toast.success('Inclusão do aluno realizada com sucesso!');
-        } else {
-          toast.error(response.data.error);
-        }
+      if (response.status === 200) {
+        toast.success('Alteração do aluno realizada com sucesso!');
       } else {
-        const confirmation = confirm(`Deseja alterar o aluno ${name} ?`);
-
-        if (!confirmation) {
-          toast.warn('Alteração do aluno cancelada!');
-          return;
-        }
-
-        const response = await api.put(`students/${id}`, {
-          name,
-          email,
-          weight,
-          height,
-          birth_date,
-        });
-
-        if (response.status === 200) {
-          toast.success('Alteração do aluno realizada com sucesso!');
-        } else {
-          toast.error(response.data.error);
-        }
+        toast.error(response.data.error);
       }
     } catch (err) {
       toast.error(`Ocorreu um erro no Gerenciamento de Alunos`);
+    }
+  }
+
+  async function storeStudent(name, email, weight, height, resetForm) {
+    try {
+      const response = await api.post('students', {
+        name,
+        email,
+        weight,
+        height,
+        birth_date,
+      });
+
+      if (response.status === 200) {
+        resetForm();
+        setBirthDate();
+        setStudent({});
+        toast.success('Inclusão do aluno realizada com sucesso!');
+      } else {
+        toast.error(response.data.error);
+      }
+    } catch (err) {
+      toast.error(`Ocorreu um erro no Gerenciamento de Alunos`);
+    }
+  }
+
+  function handleSubmit({ name, email, weight, height }, { resetForm }) {
+    if (id) {
+      confirmAlert({
+        title: 'Alteração',
+        message: `Deseja alterar o aluno ${name} ?`,
+        buttons: [
+          {
+            label: 'Alterar',
+            onClick: () => {
+              updateStudent(name, email, weight, height);
+            },
+          },
+          {
+            label: 'Cancelar',
+            onClick: () => toast.warn('Exclusão Cancelada!'),
+          },
+        ],
+      });
+    } else {
+      confirmAlert({
+        title: 'Inclusão',
+        message: `Deseja incluir o aluno ${name} ?`,
+        buttons: [
+          {
+            label: 'Incluir',
+            onClick: () => {
+              storeStudent(name, email, weight, height, resetForm);
+            },
+          },
+          {
+            label: 'Cancelar',
+            onClick: () => toast.warn('Exclusão Cancelada!'),
+          },
+        ],
+      });
     }
   }
 
@@ -151,6 +176,7 @@ export default function StoreUpdate() {
         >
           <label htmlFor="name">NOME COMPLETO</label>
           <Input name="name" type="text" placeholder="Nome Aluno" />
+
           <label htmlFor="email">ENDEREÇO DE E-MAIL</label>
           <Input name="email" type="email" placeholder="exemplo@email.com" />
           <aside className="myContainer">

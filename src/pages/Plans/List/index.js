@@ -1,8 +1,8 @@
-/* eslint-disable no-restricted-globals */
-/* eslint-disable no-alert */
 import React, { useEffect, useState, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import { MdAdd } from 'react-icons/md';
+import { confirmAlert } from 'react-confirm-alert';
+
 import api from '~/services/api';
 import history from '~/services/history';
 import { formatPrice } from '~/util/format';
@@ -56,27 +56,41 @@ export default function ListPlans() {
     loadPlans();
   }, [loadPlans, page]);
 
-  async function handleDelete(planDelete) {
+  async function deletePlan(id) {
     try {
-      const deleted = confirm(`Deseja apagar o plano ${planDelete.title} ?`);
-      if (deleted) {
-        const response = await api.delete(`plans/${planDelete.id}`);
-        if (response.status !== 200) {
-          toast.warn('Não foi possível apagar o plano!');
-        } else {
-          toast.success('Plano apagado com sucesso!');
-          if (plans.length < 10) {
-            setPlans(plans.filter(planMap => planMap.id !== planDelete.id));
-          } else {
-            loadPlans();
-          }
-        }
+      const response = await api.delete(`plans/${id}`);
+      if (response.status !== 200) {
+        toast.warn('Não foi possível apagar o plano!');
       } else {
-        toast.warn('Deleção Cancelada!');
+        toast.success('Plano apagado com sucesso!');
+        if (plans.length < 10) {
+          setPlans(plans.filter(planMap => planMap.id !== id));
+        } else {
+          loadPlans();
+        }
       }
     } catch (err) {
       toast.error('Erro para apagar o plano.');
     }
+  }
+
+  function handleDelete(planDelete) {
+    confirmAlert({
+      title: 'Exclusão',
+      message: `Deseja apagar o plano ${planDelete.title} ?`,
+      buttons: [
+        {
+          label: 'Apagar',
+          onClick: () => {
+            deletePlan(planDelete.id);
+          },
+        },
+        {
+          label: 'Cancelar',
+          onClick: () => toast.warn('Exclusão Cancelada!'),
+        },
+      ],
+    });
   }
 
   return (

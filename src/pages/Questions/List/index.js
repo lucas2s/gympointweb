@@ -1,9 +1,9 @@
-/* eslint-disable no-restricted-globals */
-/* eslint-disable no-alert */
 import React, { useEffect, useState } from 'react';
-import { Form } from '@rocketseat/unform';
+import { Form, Input } from '@rocketseat/unform';
 import { toast } from 'react-toastify';
+import { confirmAlert } from 'react-confirm-alert';
 
+import * as Yup from 'yup';
 import Pagination from '~/components/Pagination';
 import api from '~/services/api';
 
@@ -18,13 +18,16 @@ import {
   ModalContent,
 } from './styles';
 
+const schema = Yup.object().shape({
+  answer: Yup.string().required('Favor informar a resposta'),
+});
+
 export default function ListStudents() {
   const [questions, setQuestions] = useState([]);
   const [page = 1, setPage] = useState();
   const [loading = false, setLoading] = useState();
   const [question, setQuestion] = useState(null);
   const [modal, setModal] = useState(null);
-  const [answer, setAnswer] = useState(null);
 
   useEffect(() => {
     async function loadHelpOrders() {
@@ -51,19 +54,8 @@ export default function ListStudents() {
     setQuestion(item);
   }
 
-  async function handleSubmit() {
+  async function AnswerQuestion(answer) {
     try {
-      if (!answer) {
-        toast.error('Resposta não foi informada.');
-        return;
-      }
-      const confirmation = confirm(`Deseja enviar a resposta?`);
-
-      if (!confirmation) {
-        toast.warn('Envio da resposta cancelada');
-        return;
-      }
-
       const response = await api.post(`help-orders/${question.id}/answers`, {
         answer,
       });
@@ -72,7 +64,6 @@ export default function ListStudents() {
         setQuestions(
           questions.filter(questionMap => questionMap.id !== question.id)
         );
-        setAnswer(null);
         setModal(null);
         toast.success('Resposta enviada com sucesso!');
       } else {
@@ -81,6 +72,25 @@ export default function ListStudents() {
     } catch (err) {
       toast.error(`Ocorreu um erro para enviar a resposta`);
     }
+  }
+
+  function handleSubmit({ answer }) {
+    confirmAlert({
+      title: 'Resposta',
+      message: `Deseja salvar a resposta?`,
+      buttons: [
+        {
+          label: 'Salvar',
+          onClick: () => {
+            AnswerQuestion(answer);
+          },
+        },
+        {
+          label: 'Cancelar',
+          onClick: () => toast.warn('Resposta Cancelada!'),
+        },
+      ],
+    });
   }
 
   return (
@@ -130,14 +140,14 @@ export default function ListStudents() {
       {modal && (
         <Modal>
           <ModalContent>
-            <Form onSubmit={handleSubmit} id="answer">
+            <Form onSubmit={handleSubmit} id="answer" schema={schema}>
               <strong>PERGUNTA DO ALUNO</strong>
               <p>{question.question}</p>
               <strong>SUA RESPOSTA</strong>
-              <textarea
+              <Input
+                multiline
                 name="answer"
                 form="answer"
-                onChange={e => setAnswer(e.target.value)}
                 placeholder="Escreva aqui sua resposta"
               />
               <button type="submit">Responder Aluno</button>
