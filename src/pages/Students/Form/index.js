@@ -123,7 +123,7 @@ export default function StoreUpdate() {
           },
           {
             label: 'Cancelar',
-            onClick: () => toast.warn('Exclusão Cancelada!'),
+            onClick: () => toast.warn('Alteração Cancelada!'),
           },
         ],
       });
@@ -140,7 +140,7 @@ export default function StoreUpdate() {
           },
           {
             label: 'Cancelar',
-            onClick: () => toast.warn('Exclusão Cancelada!'),
+            onClick: () => toast.warn('Inclusão Cancelada!'),
           },
         ],
       });

@@ -1,12 +1,10 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
-/* eslint-disable no-restricted-globals */
-
 import React, { useEffect, useState, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { MdArrowBack, MdSave } from 'react-icons/md';
 import { addMonths, parseISO, format } from 'date-fns';
 import { Input, Form, Select } from '@rocketseat/unform';
 import AsyncSelect from 'react-select/async';
+import { confirmAlert } from 'react-confirm-alert';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 
@@ -46,18 +44,20 @@ export default function StoreUpdate() {
           student: inputValue,
         },
       });
-      
-      if (response.status === 200 ) {
-        setStudents(response.data.students.map(student => ({
-          value: student.id,
-          label: student.name,
-        })));
+
+      if (response.status === 200) {
+        setStudents(
+          response.data.students.map(studentMap => ({
+            value: studentMap.id,
+            label: studentMap.name,
+          }))
+        );
         callback(students);
       } else {
         setStudents();
         callback();
       }
-    } catch {
+    } catch (err) {
       setStudents();
       callback();
     }
@@ -97,18 +97,19 @@ export default function StoreUpdate() {
 
         if (id) {
           setTitle('Edição de matrícula');
-          const response = await api.get(`enrollments/${id}`);
-          const {plan, student, start_date} = response.data.enrollment;
+          const enrollment = await api.get(`enrollments/${id}`);
+          const { start_date } = enrollment.data.enrollment;
+          const planEnroll = enrollment.data.enrollment.plan;
+          const studentEnroll = enrollment.data.enrollment.student;
           setStartDate(parseISO(start_date));
 
-          setPlan(plan);
-          setPlanId(plan.id);
+          setPlan(planEnroll);
+          setPlanId(planEnroll.id);
 
           setStudent({
-            value: student.id,
-            label: student.name,
+            value: studentEnroll.id,
+            label: studentEnroll.name,
           });
-
         } else {
           setTitle('Cadastro de matrícula');
         }
@@ -120,56 +121,83 @@ export default function StoreUpdate() {
   }, [id]);
 
   function handleSelect(e) {
-    const id = e.target.value;
-
-    setPlan(plans.find(item => String(item.id) === String(id)));
+    const enrollId = e.target.value;
+    setPlan(plans.find(item => String(item.id) === String(enrollId)));
     setPlanId(id);
   }
 
-  async function handleSubmit() {
+  async function storeEnrollment() {
     try {
-      if (!id) {
-        const confirmation = confirm(`Deseja realizar a matricula ${student.label} ?`);
+      const response = await api.post('enrollments', {
+        student_id: student.value,
+        plan_id: plan.id,
+        startDate,
+      });
 
-        if (!confirmation) {
-          toast.warn('Matrícula cancelada!');
-          return;
-        }
-
-        const response = await api.post('enrollments', {
-          student_id: student.value,
-          plan_id: plan.id,
-          startDate,
-        });
-
-        if (response.status === 200) {
-          toast.success('Matricula realizada com sucesso!');
-          history.push('/enrollments/list');
-        } else {
-          toast.error(response.data.error);
-        }
+      if (response.status === 200) {
+        toast.success('Matricula realizada com sucesso!');
+        history.push('/enrollments/list');
       } else {
-        const confirmation = confirm(`Deseja alterar a matrícula do aluno ${student.label} ?`);
-
-        if (!confirmation) {
-          toast.warn('Alteração da matrícula cancelada!');
-          return;
-        }
-
-        const response = await api.put(`enrollments/${id}`, {
-          student_id: student.value,
-          plan_id: plan.id,
-          startDate,
-        });
-
-        if (response.status === 200) {
-          toast.success('Alteração da matrícula realizada com sucesso!');
-        } else {
-          toast.error(response.data.error);
-        }
+        toast.error(response.data.error);
       }
     } catch (err) {
       toast.error(`Ocorreu um erro no Gerenciamento de Matriculas`);
+    }
+  }
+
+  async function updateEnrollment() {
+    try {
+      const response = await api.put(`enrollments/${id}`, {
+        student_id: student.value,
+        plan_id: plan.id,
+        startDate,
+      });
+
+      if (response.status === 200) {
+        toast.success('Alteração da matrícula realizada com sucesso!');
+      } else {
+        toast.error(response.data.error);
+      }
+    } catch (err) {
+      toast.error(`Ocorreu um erro no Gerenciamento de Matriculas`);
+    }
+  }
+
+  function handleSubmit() {
+    if (id) {
+      confirmAlert({
+        title: 'Alteração',
+        message: `Deseja alterar a matrícula do aluno ${student.label} ?`,
+        buttons: [
+          {
+            label: 'Alterar',
+            onClick: () => {
+              updateEnrollment();
+            },
+          },
+          {
+            label: 'Cancelar',
+            onClick: () => toast.warn('Alteração Cancelada!'),
+          },
+        ],
+      });
+    } else {
+      confirmAlert({
+        title: 'Inclusão',
+        message: `Deseja realizar a matricula ${student.label} ?`,
+        buttons: [
+          {
+            label: 'Incluir',
+            onClick: () => {
+              storeEnrollment();
+            },
+          },
+          {
+            label: 'Cancelar',
+            onClick: () => toast.warn('Inclusão Cancelada!'),
+          },
+        ],
+      });
     }
   }
 

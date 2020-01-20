@@ -1,12 +1,8 @@
-/* eslint-disable no-empty-pattern */
-/* eslint-disable no-alert */
-/* eslint-disable no-restricted-globals */
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useEffect, useState, useMemo } from 'react';
 import { toast } from 'react-toastify';
 import { useParams } from 'react-router-dom';
 import { MdArrowBack, MdSave } from 'react-icons/md';
+import { confirmAlert } from 'react-confirm-alert';
 import { Input, Form } from '@rocketseat/unform';
 import * as Yup from 'yup';
 
@@ -69,62 +65,85 @@ export default function StoreUpdate() {
       }
     }
     loadPlan();
-  }, []);
+  }, [id]);
 
-  async function handleSubmit({ title }, { resetForm }) {
+  async function storePlan(title, resetForm) {
     try {
-      if (!id) {
-        const confirmation = confirm(`Deseja incluir o plano ${title} ?`);
+      const response = await api.post('plans', {
+        title,
+        duration,
+        price,
+      });
 
-        if (!confirmation) {
-          toast.warn('Inclusão do plano cancelada!');
-          return;
-        }
-
-        const response = await api.post('plans', {
-          title,
-          duration,
-          price,
-        });
-
-        if (response.status === 200) {
-          resetForm();
-          setPrice();
-          setDuration();
-          setPlan({});
-          toast.success('Inclusão do plano realizada com sucesso!');
-        } else {
-          toast.error(response.data.error);
-        }
+      if (response.status === 200) {
+        resetForm();
+        setPrice();
+        setDuration();
+        setPlan({});
+        toast.success('Inclusão do plano realizada com sucesso!');
       } else {
-        const confirmation = confirm(`Deseja alterar o plano ${title} ?`);
-
-        if (!confirmation) {
-          toast.warn('Alteração do plano cancelada!');
-          return;
-        }
-
-        const response = await api.put(`plans/${id}`, {
-          title,
-          duration,
-          price,
-        });
-
-        if (response.status === 200) {
-          toast.success('Alteração do plano realizada com sucesso!');
-        } else {
-          toast.error(response.data.error);
-        }
+        toast.error(response.data.error);
       }
     } catch (err) {
       toast.error(`Ocorreu um erro no Gerenciamento de Planos`);
     }
   }
 
-  const handlePrice = values => {
-    const priced = values.floatValue;
-    setPrice(priced);
-  };
+  async function updatePlan(title) {
+    try {
+      const response = await api.put(`plans/${id}`, {
+        title,
+        duration,
+        price,
+      });
+
+      if (response.status === 200) {
+        toast.success('Alteração do plano realizada com sucesso!');
+      } else {
+        toast.error(response.data.error);
+      }
+    } catch (err) {
+      toast.error(`Ocorreu um erro no Gerenciamento de Planos`);
+    }
+  }
+
+  function handleSubmit({ title }, { resetForm }) {
+    if (id) {
+      confirmAlert({
+        title: 'Alteração',
+        message: `Deseja alterar o plano ${title} ?`,
+        buttons: [
+          {
+            label: 'Alterar',
+            onClick: () => {
+              updatePlan(title);
+            },
+          },
+          {
+            label: 'Cancelar',
+            onClick: () => toast.warn('Alteração Cancelada!'),
+          },
+        ],
+      });
+    } else {
+      confirmAlert({
+        title: 'Inclusão',
+        message: `Deseja incluir o plano ${title} ?`,
+        buttons: [
+          {
+            label: 'Incluir',
+            onClick: () => {
+              storePlan(title, resetForm);
+            },
+          },
+          {
+            label: 'Cancelar',
+            onClick: () => toast.warn('Inclusão Cancelada!'),
+          },
+        ],
+      });
+    }
+  }
 
   return (
     <Container>
@@ -167,11 +186,7 @@ export default function StoreUpdate() {
             </div>
             <div>
               <label htmlFor="price">PREÇO MENSAL</label>
-              <InputCurrency
-                name="price"
-                value={price}
-                handleChangeValue={values => handlePrice(values)}
-              />
+              <InputCurrency name="price" price={price} setPrice={setPrice} />
             </div>
             <div>
               <label htmlFor="priceTotal">PREÇO TOTAL</label>

@@ -4,7 +4,7 @@ import CurrencyInput from 'react-number-format';
 
 import { useField } from '@rocketseat/unform';
 
-export default function InputCurrency({ name, value, handleChangeValue }) {
+export default function InputCurrency({ name, price, setPrice }) {
   const ref = useRef(null);
   const { fieldName, registerField, error } = useField(name);
 
@@ -13,6 +13,9 @@ export default function InputCurrency({ name, value, handleChangeValue }) {
       name: fieldName,
       ref: ref.current,
       path: 'props.value',
+      clearValue: () => {
+        setPrice(null);
+      },
     });
   }, [ref.current, fieldName]); // eslint-disable-line
 
@@ -25,8 +28,8 @@ export default function InputCurrency({ name, value, handleChangeValue }) {
         fixedDecimalScale
         prefix="R$ "
         name={fieldName}
-        value={value}
-        onValueChange={handleChangeValue}
+        value={price}
+        onValueChange={values => setPrice(values.floatValue)}
         ref={ref}
         placeholder="R$ 100,00"
       />
@@ -37,10 +40,10 @@ export default function InputCurrency({ name, value, handleChangeValue }) {
 
 InputCurrency.propTypes = {
   name: PropTypes.string.isRequired,
-  value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  handleChangeValue: PropTypes.func.isRequired,
+  price: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  setPrice: PropTypes.func.isRequired,
 };
 
 InputCurrency.defaultProps = {
-  value: null,
+  price: null,
 };
