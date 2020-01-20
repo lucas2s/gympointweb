@@ -27,10 +27,13 @@ const schema = Yup.object().shape({
   name: Yup.string().required('Informe um nome válido'),
   weight: Yup.number('Valor deve ser numérico')
     .positive('Insira um peso válido')
+    .min(40, 'Peso deve ser maior que 40kg')
     .required('O peso é obrigatório')
     .typeError('O peso é obrigatório'),
   height: Yup.number('Valor deve ser numérico')
     .positive('Insira uma altura válido')
+    .min(1, 'Altura deve ser maior que 1 metro')
+    .max(2.4, 'Altura deve ser menor que 2.40 metros')
     .required('A altura é obrigatória')
     .typeError('A altura é obrigatória'),
   birth_date: Yup.date()
