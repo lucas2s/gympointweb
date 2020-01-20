@@ -1,5 +1,3 @@
-/* eslint-disable no-alert */
-/* eslint-disable no-restricted-globals */
 import React, { useState, useEffect, useCallback } from 'react';
 import { MdAdd, MdCheckCircle, MdNotInterested } from 'react-icons/md';
 import { toast } from 'react-toastify';

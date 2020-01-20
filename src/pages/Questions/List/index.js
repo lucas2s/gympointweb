@@ -140,7 +140,7 @@ export default function ListStudents() {
       {modal && (
         <Modal>
           <ModalContent>
-            <Form onSubmit={handleSubmit} id="answer" schema={schema}>
+            <Form onSubmit={handleSubmit} id="question" schema={schema}>
               <strong>PERGUNTA DO ALUNO</strong>
               <p>{question.question}</p>
               <strong>SUA RESPOSTA</strong>

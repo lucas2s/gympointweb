@@ -24,17 +24,44 @@ export default function Header() {
           </NavLink>
           <ul>
             <li>
-              <NavLink activeClassName="chosen" to="/students/list">
+              <NavLink
+                activeClassName="chosen"
+                to="/students/list"
+                isActive={(match, location) => {
+                  if (location.pathname.indexOf('/students/') !== -1) {
+                    return true;
+                  }
+                  return false;
+                }}
+              >
                 ALUNOS
               </NavLink>
             </li>
             <li>
-              <NavLink activeClassName="chosen" to="/plans/list">
+              <NavLink
+                activeClassName="chosen"
+                to="/plans/list"
+                isActive={(match, location) => {
+                  if (location.pathname.indexOf('/plans/') !== -1) {
+                    return true;
+                  }
+                  return false;
+                }}
+              >
                 PLANOS
               </NavLink>
             </li>
             <li>
-              <NavLink activeClassName="chosen" to="/enrollments/list">
+              <NavLink
+                activeClassName="chosen"
+                to="/enrollments/list"
+                isActive={(match, location) => {
+                  if (location.pathname.indexOf('/enrollments/') !== -1) {
+                    return true;
+                  }
+                  return false;
+                }}
+              >
                 MATRÍCULAS
               </NavLink>
             </li>
