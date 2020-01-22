@@ -3,11 +3,11 @@ import { useParams } from 'react-router-dom';
 import { MdArrowBack, MdSave } from 'react-icons/md';
 import { addMonths, parseISO, format } from 'date-fns';
 import { Input, Form, Select } from '@rocketseat/unform';
-import AsyncSelect from 'react-select/async';
 import { confirmAlert } from 'react-confirm-alert';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 
+import AsyncSelect from '~/components/AsyncSelect';
 import DatePicker from '~/components/DataPicker';
 
 import {
@@ -22,14 +22,22 @@ import history from '~/services/history';
 import api from '~/services/api';
 import { formatPrice } from '~/util/format';
 
-const schema = Yup.object().shape({});
+const schema = Yup.object().shape({
+  student: Yup.string().required('Aluno é obrigatório'),
+  palnId: Yup.string()
+    .required('O plano é obrigatório')
+    .typeError('O plano é inválido'),
+  startDate: Yup.date()
+    .required('Data de inicio é obrigatória')
+    .typeError('Data de inicio inválida'),
+});
 
 export default function StoreUpdate() {
   const { id } = useParams();
 
   const [titleForm, setTitle] = useState();
   const [plans, setPlans] = useState([]);
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState();
   const [plan, setPlan] = useState();
   const [planId, setPlanId] = useState();
   const [priceTotal, setPriceTotal] = useState();
@@ -226,10 +234,8 @@ export default function StoreUpdate() {
           <div>
             <label htmlFor="student">ALUNO</label>
             <AsyncSelect
-              cacheOptions
-              loadOptions={loadOptions}
-              value={student}
-              defaultOptions
+              name="student"
+              options={loadOptions}
               onChange={handleAluno}
               placeholder="Buscar Aluno"
               className="mySelectAsync"
@@ -267,6 +273,7 @@ export default function StoreUpdate() {
                 onChange={date => setStartDate(date)}
                 minDate={new Date()}
                 className="myDatePicker myInput"
+                placeholderText="Data Início Matrícula"
               />
             </div>
             <div className="myDiv">
