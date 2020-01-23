@@ -56,8 +56,8 @@ export default function StoreUpdate() {
       if (response.status === 200) {
         setStudents(
           response.data.students.map(studentMap => ({
-            value: studentMap.id,
-            label: studentMap.name,
+            id: studentMap.id,
+            name: studentMap.name,
           }))
         );
         callback(students);
@@ -105,18 +105,18 @@ export default function StoreUpdate() {
 
         if (id) {
           setTitle('Edição de matrícula');
-          const enrollment = await api.get(`enrollments/${id}`);
-          const { start_date } = enrollment.data.enrollment;
-          const planEnroll = enrollment.data.enrollment.plan;
-          const studentEnroll = enrollment.data.enrollment.student;
+          const respEnroll = await api.get(`enrollments/${id}`);
+          const { start_date } = respEnroll.data.enrollment;
+          const planEnroll = respEnroll.data.enrollment.plan;
+          const studentEnroll = respEnroll.data.enrollment.student;
           setStartDate(parseISO(start_date));
 
           setPlan(planEnroll);
           setPlanId(planEnroll.id);
 
           setStudent({
-            value: studentEnroll.id,
-            label: studentEnroll.name,
+            id: studentEnroll.id,
+            name: studentEnroll.name,
           });
         } else {
           setTitle('Cadastro de matrícula');
@@ -137,7 +137,7 @@ export default function StoreUpdate() {
   async function storeEnrollment() {
     try {
       const response = await api.post('enrollments', {
-        student_id: student.value,
+        student_id: student.id,
         plan_id: plan.id,
         startDate,
       });
@@ -156,7 +156,7 @@ export default function StoreUpdate() {
   async function updateEnrollment() {
     try {
       const response = await api.put(`enrollments/${id}`, {
-        student_id: student.value,
+        student_id: student.id,
         plan_id: plan.id,
         startDate,
       });
@@ -175,7 +175,7 @@ export default function StoreUpdate() {
     if (id) {
       confirmAlert({
         title: 'Alteração',
-        message: `Deseja alterar a matrícula do aluno ${student.label} ?`,
+        message: `Deseja alterar a matrícula do aluno ${student.name} ?`,
         buttons: [
           {
             label: 'Alterar',
@@ -192,7 +192,7 @@ export default function StoreUpdate() {
     } else {
       confirmAlert({
         title: 'Inclusão',
-        message: `Deseja realizar a matricula ${student.label} ?`,
+        message: `Deseja realizar a matricula ${student.name} ?`,
         buttons: [
           {
             label: 'Incluir',
@@ -237,6 +237,7 @@ export default function StoreUpdate() {
               name="student"
               options={loadOptions}
               onChange={handleAluno}
+              value={student}
               placeholder="Buscar Aluno"
               className="mySelectAsync"
             />
