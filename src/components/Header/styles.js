@@ -10,11 +10,73 @@ export const Container = styled.div`
 export const Content = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
   max-width: 1440px;
   width: 100%;
   height: 100%;
   margin: 0 auto;
+
+  .navbar {
+    max-width: 1285px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .menu {
+    display: none;
+  }
+
+  .open {
+    display: none;
+  }
+
+  @media (max-width: 740px) {
+    justify-content: space-between;
+
+    .navbar {
+      display: none;
+    }
+
+    .menu {
+      display: flex;
+      border: 0;
+      background: #fff;
+      padding: 0;
+      margin-right: 20px;
+      z-index: 2;
+    }
+  }
+
+  .open {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(255, 255, 255, 0.9);
+    z-index: 1;
+  }
+
+  .open nav {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    padding-left: 20px;
+  }
+
+  .open ul {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .open aside {
+    padding-left: 20px;
+  }
 
   nav {
     display: flex;
