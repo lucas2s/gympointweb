@@ -1,68 +1,101 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<h1 align="center" >
+  <img alt="GoStack" src="https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/bootcamp-header.png" width="100px" /> <br />
+  Bootcamp 9.0 da <a text-decoration="none" href="https://rocketseat.com.br">:rocket: Rockeseat</a> - Desafio 9: Gympoint WEB
+</h1>
+<h2 align="center">
+    <img alt="GoStack" src="https://facebook.github.io/react-native/img/header_logo.svg" width="120px" />
+</h2>
 
-## Available Scripts
+<blockquote align="center">“Feito é melhor doque perfeito!"</blockquote>
 
-In the project directory, you can run:
+<p align="center">
+  <a href="https://github.com/lucasssartori?tab=followers">
+    <img alt="GitHub Lucas Sartori" src="https://img.shields.io/github/followers/lucasssartori?style=social">
+  </a>
 
-### `yarn start`
+  <a href="https://github.com/lucasssartori/gympointweb/stargazers">
+    <img alt="Stargazers" src="https://img.shields.io/github/stars/lucasssartori/gympointweb?style=social">
+  </a>
+  <a href="https://github.com/lucasssartori/gympointweb/forks/">
+    <img alt="Stargazers" src="https://img.shields.io/github/forks/lucasssartori/gympointweb?style=social">
+  </a>
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+  <a href="https://github.com/lucasssartori/gympointweb/watchers">
+    <img alt="watchers" src="https://img.shields.io/github/watchers/lucasssartori/gympointweb?style=social">
+  </a>
+</p>
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+<p align="center">
+  <a href="#1---sobre-o-módulo">Sobre o desafio</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#2---tecnologias">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#3---funcionalidades">Funcionalidades</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#4---apresentação">Apresentação</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#5---executar-aplicação">Executar aplicação</a>
+</p>
 
-### `yarn test`
+## 1 - Sobre o módulo
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Neste modulo foi desenvolvida uma aplicação web completa com algumas funcionalidades para a administração de academias.
 
-### `yarn build`
+O backend da aplicação está no seguinte repositório: https://github.com/lucasssartori/gympointbackend
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 2 - Tecnologias
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+O Projeto desenvolvido em ReactJS com aplicação de diversas tecnologias e bibliotecas.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+  - @rocketseat/unform
+  - axios
+  - date-fns
+  - date-fns-tz
+  - history
+  - immer
+  - polished
+  - prettier
+  - prop-types
+  - react-confirm-alert
+  - react-datepicker
+  - react-dom
+  - react-icons
+  - react-number-format
+  - react-redux
+  - react-router-dom
+  - react-scripts
+  - react-select
+  - react-toastify
+  - reactotron-react-js
+  - reactotron-redux
+  - reactotron-redux-saga
+  - redux
+  - redux-persist
+  - redux-saga
+  - styled-components
+  - yup
 
-### `yarn eject`
+## 3 - Funcionalidades
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+  - Inclusão, alteração, consulta e exclusão de alunos da academia.
+  - Inclusão, alteração, consulta e exclusão de planos da academia.
+  - Inclusão, alteração, consulta e exclusão de matriculas de alunos.
+  - Responder solicitações de auxílio criados pelos alunos da academia através do aplicativo GympointMobile.
+  - Paginção das telas.
+  - Cálculos do preço dos planos e cálculos de datas e valor dos planos na criação das matrículas.
+  - Tela de login.
+  - opção de Logout.
+  - Tratamento de erros e mensagens de críticas.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 4 - Apresentação
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+<p> Video abaixo aprensenta de frma rápida as funcionalidades da aplicação. </p>
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
+## 5 - Executar aplicação
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+:heavy_check_mark: Criar o backend conforme indicado no repositório: https://github.com/lucasssartori/gympointbackend. <br />
+:heavy_check_mark: Colocar o backend em execução <br />
+:heavy_check_mark: Realizar um clone desse repositório. <br />
+:heavy_check_mark: Entre na pasta do projeto via linha de comando. <br />
+:heavy_check_mark: Executar o comando yarn para instalar as dependências. <br />
+:heavy_check_mark: Executar o comando yarn start. <br />
+:heavy_check_mark: A aplicação será aberta no navegador. <br />
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+:heavy_exclamation_mark: Obs: A aplicação yarn deve estar instalada no computador.
