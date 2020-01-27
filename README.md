@@ -80,8 +80,9 @@ O Projeto desenvolvido em ReactJS com aplicação de diversas tecnologias e bibl
   - Paginção das telas.
   - Cálculos do preço dos planos e cálculos de datas e valor dos planos na criação das matrículas.
   - Tela de login.
-  - opção de Logout.
+  - Opção de Logout.
   - Tratamento de erros e mensagens de críticas.
+  - Menu de navegação responsivo.
 
 ## 4 - Apresentação
 
