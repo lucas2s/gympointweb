@@ -105,7 +105,7 @@ export const ContentForm = styled.div`
       height: 45px;
       padding-left: 5px;
 
-      ::placeholder {
+      option:first {
         font-size: 14px;
         line-height: 16px;
         color: #999999;
