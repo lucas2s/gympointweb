@@ -113,7 +113,7 @@ export default function Header() {
           <aside>
             <strong>{name}</strong>
             <button type="button" onClick={handleSignOut}>
-              sair do sitema
+              sair do sistema
             </button>
           </aside>
         </div>

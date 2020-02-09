@@ -140,5 +140,9 @@ export const Content = styled.div`
       background: #fff;
       padding: 0;
     }
+
+    @media (max-width: 740px) {
+      align-items: center;
+    }
   }
 `;
