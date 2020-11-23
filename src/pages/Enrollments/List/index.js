@@ -39,7 +39,7 @@ export default function ListEnrollments() {
         });
 
         setEnrollments(
-          response.data.enrollments.map(enrollment => ({
+          response.data.map((enrollment) => ({
             ...enrollment,
             startDate: format(
               zonedTimeToUtc(parseISO(enrollment.start_date), timeSP),
@@ -89,7 +89,7 @@ export default function ListEnrollments() {
         if (enrollments.length < 10) {
           setEnrollments(
             enrollments.filter(
-              enroomentMap => enroomentMap.id !== enrollDelete.id
+              (enroomentMap) => enroomentMap.id !== enrollDelete.id
             )
           );
         } else {
@@ -172,7 +172,7 @@ export default function ListEnrollments() {
               </tr>
             </thead>
             <tbody>
-              {enrollments.map(item => (
+              {enrollments.map((item) => (
                 <tr key={item.id}>
                   <td className="colLeft">
                     <p>{item.student.name}</p>
@@ -212,7 +212,11 @@ export default function ListEnrollments() {
           </Table>
         )}
       </ContentTable>
-      <Pagination page={page} setPage={setPage} list={enrollments} />
+      <Pagination
+        page={page}
+        setPage={setPage}
+        list={enrollments && enrollments.length}
+      />
     </Container>
   );
 }

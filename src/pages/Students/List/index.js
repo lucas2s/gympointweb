@@ -35,7 +35,7 @@ export default function ListStudents() {
           },
         });
 
-        setStudents(response.data.students);
+        setStudents(response.data);
         setLoading(false);
       } catch (err) {
         setStudents([]);
@@ -61,7 +61,7 @@ export default function ListStudents() {
       } else {
         toast.success('Aluno apagado com sucesso!');
         if (students.length < 10) {
-          setStudents(students.filter(studentMap => studentMap.id !== id));
+          setStudents(students.filter((studentMap) => studentMap.id !== id));
         } else {
           loadStudents();
         }
@@ -90,15 +90,23 @@ export default function ListStudents() {
     });
   }
 
+  if (loading) {
+    return (
+      <Row>
+        <h1>Carregando Alunos...</h1>
+      </Row>
+    );
+  }
+
   return (
     <Container>
       <Content>
-        <h1>Gerenciando alunos</h1>
+        <h1 data-testid="title-page">Gerenciando alunos</h1>
         <div>
           <button
             type="button"
             onClick={() => {
-              history.push('/students/store');
+              history.goBack();
             }}
           >
             <MdAdd size={22} color="#FFF" />
@@ -113,15 +121,7 @@ export default function ListStudents() {
         </div>
       </Content>
       <ContentTable>
-        {loading ? (
-          <Row>
-            <h1>Carregando Alunos...</h1>
-          </Row>
-        ) : students.length <= 0 ? (
-          <Row>
-            <h1>Não foi encontrado nenhum aluno</h1>
-          </Row>
-        ) : (
+        {students && (
           <Table>
             <thead>
               <tr>
@@ -137,7 +137,7 @@ export default function ListStudents() {
               </tr>
             </thead>
             <tbody>
-              {students.map(item => (
+              {students.map((item) => (
                 <tr key={item.id}>
                   <td className="colLeft">
                     <p>{item.name}</p>
@@ -172,7 +172,11 @@ export default function ListStudents() {
           </Table>
         )}
       </ContentTable>
-      <Pagination page={page} setPage={setPage} list={students} />
+      <Pagination
+        page={page}
+        setPage={setPage}
+        list={students && students.length}
+      />
     </Container>
   );
 }

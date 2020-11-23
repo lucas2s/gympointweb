@@ -39,7 +39,7 @@ export default function ListStudents() {
           },
         });
 
-        setQuestions(response.data.helpOrders);
+        setQuestions(response.data);
         setLoading(false);
       } catch (err) {
         setQuestions([]);
@@ -62,7 +62,7 @@ export default function ListStudents() {
 
       if (response.status === 200) {
         setQuestions(
-          questions.filter(questionMap => questionMap.id !== question.id)
+          questions.filter((questionMap) => questionMap.id !== question.id)
         );
         setModal(null);
         toast.success('Resposta enviada com sucesso!');
@@ -117,7 +117,7 @@ export default function ListStudents() {
               </tr>
             </thead>
             <tbody>
-              {questions.map(item => (
+              {questions.map((item) => (
                 <tr key={item.id}>
                   <td className="colLeft">
                     <p>{item.student.name}</p>
@@ -136,7 +136,11 @@ export default function ListStudents() {
           </Table>
         )}
       </ContentTable>
-      <Pagination page={page} setPage={setPage} list={questions} />
+      <Pagination
+        page={page}
+        setPage={setPage}
+        list={questions && questions.length}
+      />
       {modal && (
         <Modal>
           <ModalContent>

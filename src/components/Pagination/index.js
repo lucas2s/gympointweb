@@ -25,8 +25,8 @@ export default function Pagination({ page, setPage, list }) {
       <span>{page}</span>
       <button
         type="button"
-        onClick={() => handleNextPage('next')}
-        disabled={list.length < 10}
+        onClick={() => handleNextPage()}
+        disabled={list < 10}
       >
         <AiFillCaretRight />
       </button>
@@ -37,11 +37,7 @@ export default function Pagination({ page, setPage, list }) {
 Pagination.propTypes = {
   page: PropTypes.number.isRequired,
   setPage: PropTypes.func.isRequired,
-  list: PropTypes.arrayOf(
-    PropTypes.shape({
-      length: PropTypes.number,
-    })
-  ).isRequired,
+  list: PropTypes.number.isRequired,
 };
 
 Pagination.defaultProps = {};

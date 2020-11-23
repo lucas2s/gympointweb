@@ -33,7 +33,7 @@ export default function ListPlans() {
           },
         });
 
-        const data = response.data.plans.map(plan => ({
+        const data = response.data.plans.map((plan) => ({
           ...plan,
           durationFormated:
             plan.duration === 1
@@ -64,7 +64,7 @@ export default function ListPlans() {
       } else {
         toast.success('Plano apagado com sucesso!');
         if (plans.length < 10) {
-          setPlans(plans.filter(planMap => planMap.id !== id));
+          setPlans(plans.filter((planMap) => planMap.id !== id));
         } else {
           loadPlans();
         }
@@ -134,7 +134,7 @@ export default function ListPlans() {
               </tr>
             </thead>
             <tbody>
-              {plans.map(item => (
+              {plans.map((item) => (
                 <tr key={item.id}>
                   <td className="colLeft">
                     <p>{item.title}</p>
@@ -169,7 +169,7 @@ export default function ListPlans() {
           </Table>
         )}
       </ContentTable>
-      <Pagination page={page} setPage={setPage} list={plans} />
+      <Pagination page={page} setPage={setPage} list={plans && plans.length} />
     </Container>
   );
 }
