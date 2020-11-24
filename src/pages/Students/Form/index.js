@@ -158,7 +158,7 @@ export default function StoreUpdate() {
           <BtnVoltar
             type="button"
             onClick={() => {
-              history.push('/students/list');
+              history.goBack();
             }}
           >
             <MdArrowBack size={22} color="#FFF" />

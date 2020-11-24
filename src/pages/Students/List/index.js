@@ -61,7 +61,7 @@ export default function ListStudents() {
       } else {
         toast.success('Aluno apagado com sucesso!');
         if (students.length < 10) {
-          setStudents(students.filter((studentMap) => studentMap.id !== id));
+          setStudents(students.filter(studentMap => studentMap.id !== id));
         } else {
           loadStudents();
         }
@@ -106,7 +106,7 @@ export default function ListStudents() {
           <button
             type="button"
             onClick={() => {
-              history.goBack();
+              history.push('/students/store');
             }}
           >
             <MdAdd size={22} color="#FFF" />
@@ -137,7 +137,7 @@ export default function ListStudents() {
               </tr>
             </thead>
             <tbody>
-              {students.map((item) => (
+              {students.map(item => (
                 <tr key={item.id}>
                   <td className="colLeft">
                     <p>{item.name}</p>
