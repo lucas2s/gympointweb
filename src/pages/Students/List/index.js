@@ -92,7 +92,7 @@ export default function ListStudents() {
 
   if (loading) {
     return (
-      <Row>
+      <Row data-testid="loading">
         <h1>Carregando Alunos...</h1>
       </Row>
     );
@@ -125,7 +125,7 @@ export default function ListStudents() {
           <Table>
             <thead>
               <tr>
-                <th className="colLeft">
+                <th data-testid="column-aluno" className="colLeft">
                   <strong>ALUNO</strong>
                 </th>
                 <th className="colLeft">
